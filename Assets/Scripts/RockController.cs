@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class RockController : MonoBehaviour
 {
+    bool createNewInstanceOnDestroy = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("paper"))
+        if (collision.gameObject.CompareTag("Paper"))
         {
-            // destroy rock and replace with paper
+            createNewInstanceOnDestroy = true;
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (createNewInstanceOnDestroy)
+        {
+            GameManager.instance.InstantiatePaperPrefab(transform);
+            createNewInstanceOnDestroy = false;
         }
     }
 }

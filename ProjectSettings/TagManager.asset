@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Vertical Bound
   - Horizontal Bound
+  - Paper
+  - Rock
+  - Scissors
   layers:
   - Default
   - TransparentFX

@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class ScissorsController : MonoBehaviour
 {
+    bool createNewInstanceOnDestroy = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("rock"))
+        if (collision.gameObject.CompareTag("Rock"))
         {
-            // destroy scissors and replace with rock
+            createNewInstanceOnDestroy = true;
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (createNewInstanceOnDestroy)
+        {
+            GameManager.instance.InstantiateRockPrefab(transform);
+            createNewInstanceOnDestroy = false;
         }
     }
 }

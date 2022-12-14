@@ -4,11 +4,23 @@ using UnityEngine;
 
 public class PaperController : MonoBehaviour
 {
+    bool createNewInstanceOnDestroy = false;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Scissors"))
         {
-            // destroy paper and replace with scissors
+            createNewInstanceOnDestroy = true;
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (createNewInstanceOnDestroy)
+        {
+            GameManager.instance.InstantiateScissorsPrefab(transform);
+            createNewInstanceOnDestroy = false;
         }
     }
 }
