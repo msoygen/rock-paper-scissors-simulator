@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 57bd9c1d1109af349a042583ed4aa6b6
+guid: 8b418910fdf037a4f98bb0d64bd3dcec
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - rockPrefab: {instanceID: 0}
-  - paperPrefab: {instanceID: 0}
-  - scissorsPrefab: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
