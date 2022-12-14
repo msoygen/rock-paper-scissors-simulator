@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1023975177828027262}
   - component: {fileID: 268134216340173945}
   - component: {fileID: 1087070578483692232}
+  - component: {fileID: 3197345466094504288}
   m_Layer: 0
   m_Name: Scissors
   m_TagString: Scissors
@@ -151,5 +152,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2769edaae918b8449aa7dd6b5d99b7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3197345466094504288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9077328890200034998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a8111d2b442d2d40a1be293faa7e268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
