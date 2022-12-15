@@ -6,24 +6,21 @@ using UnityEngine.Profiling;
 public class Movement : MonoBehaviour
 {
     private Vector2 direction;
-    private Vector2 velocity;
+    private Vector2 gameViewBoundaries;
 
-    private float speed = 3f;
     [SerializeField]
     private Rigidbody2D rb2D;
-
-    private Vector2 gameViewBoundaries;
 
     private void Start()
     {
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        velocity = direction * speed;
+        gameViewBoundaries = GameManager.instance.GetGameViewBoundaries();
     }
 
     private void FixedUpdate()
     {
         Profiler.BeginSample("Boundaries");
-        gameViewBoundaries = GameManager.instance.GetGameViewBoundaries(); // this can be done in only once and cache in game manager instance
+
         if (rb2D.position.x > gameViewBoundaries.x || rb2D.position.x < -gameViewBoundaries.x)
         {
             direction.x *= -1;
@@ -38,7 +35,9 @@ public class Movement : MonoBehaviour
         Profiler.EndSample(); 
 
         Profiler.BeginSample("MovePosition");
-        rb2D.MovePosition(rb2D.position + direction * speed * Time.fixedDeltaTime);
+
+        rb2D.MovePosition(rb2D.position + direction * GameManager.instance.speed * Time.fixedDeltaTime);
+
         Profiler.EndSample();
     }
     /*

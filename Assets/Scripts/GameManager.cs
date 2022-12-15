@@ -16,12 +16,17 @@ public class GameManager : MonoBehaviour
 
     public int totalObjectCount = 0;
 
+    public float speed = 9f;
+
     private int rockObjectCount = 0;
     private int paperObjectCount = 0;
     private int scissorsObjectCount = 0;
 
     // 0 rock 1 paper 2 scissors
     private List<int> pickList = new List<int>();
+    private Vector2 gameViewBoundaries;
+
+    public Vector2 GameViewBoundaries { get { return GetGameViewBoundaries(); }}
 
     private void Awake()
     {
@@ -41,6 +46,13 @@ public class GameManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == GAME_SCENE_BUILD_INDEX && SceneManager.GetActiveScene().isLoaded)
         {
             PopulateGameScene();
+
+            Bounds ortographicCameraBounds = Camera.main.OrthographicBounds();
+
+            float ortographicCameraBounds_X_Half = ortographicCameraBounds.size.x / 2;
+            float ortographicCameraBounds_Y_Half = ortographicCameraBounds.size.y / 2;
+
+            gameViewBoundaries = new Vector2(ortographicCameraBounds_X_Half, ortographicCameraBounds_Y_Half);
         }
     }
 
@@ -181,11 +193,6 @@ public class GameManager : MonoBehaviour
 
     public Vector2 GetGameViewBoundaries()
     {
-        Bounds ortographicCameraBounds = Camera.main.OrthographicBounds();
-
-        float ortographicCameraBounds_X_Half = ortographicCameraBounds.size.x / 2;
-        float ortographicCameraBounds_Y_Half = ortographicCameraBounds.size.y / 2;
-
-        return new Vector2(ortographicCameraBounds_X_Half, ortographicCameraBounds_Y_Half);
+        return gameViewBoundaries;
     }
 }
