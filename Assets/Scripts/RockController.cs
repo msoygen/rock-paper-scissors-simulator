@@ -19,7 +19,7 @@ public class RockController : MonoBehaviour
     {
         if (createNewInstanceOnDestroy)
         {
-            GameManager.instance.InstantiatePaperPrefab(transform);
+            SessionManager.instance.InstantiatePaperPrefab(transform.position);
             createNewInstanceOnDestroy = false;
         }
     }

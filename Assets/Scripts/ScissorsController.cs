@@ -19,7 +19,7 @@ public class ScissorsController : MonoBehaviour
     {
         if (createNewInstanceOnDestroy)
         {
-            GameManager.instance.InstantiateRockPrefab(transform);
+            SessionManager.instance.InstantiateRockPrefab(transform.position);
             createNewInstanceOnDestroy = false;
         }
     }
