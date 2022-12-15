@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject paperPrefab;
     public GameObject scissorsPrefab;
 
-    public int totalObjectCount = 20;
+    public int totalObjectCount = 0;
 
     private int rockObjectCount = 0;
     private int paperObjectCount = 0;
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == GAME_SCENE_BUILD_INDEX)
+        if (SceneManager.GetActiveScene().buildIndex == GAME_SCENE_BUILD_INDEX && SceneManager.GetActiveScene().isLoaded)
         {
             PopulateGameScene();
         }
@@ -47,6 +47,24 @@ public class GameManager : MonoBehaviour
     private void PopulateGameScene()
     {
         CreatePickList();
+        // instantiate using a scattering formation
+        foreach (int pick in pickList)
+        {
+            switch (pick)
+            {
+                case 0: // rock
+                    InstantiateRockPrefab(FindNonOverlappingPosition());
+                    break;
+                case 1: // paper
+                    InstantiatePaperPrefab(FindNonOverlappingPosition());
+                    break;
+                case 2: // scissors
+                    InstantiateScissorsPrefab(FindNonOverlappingPosition());
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     private void CreatePickList()
@@ -55,61 +73,62 @@ public class GameManager : MonoBehaviour
 
         AssignObjectCountsEach();
 
-        pickList.Clear();
-
         PopulatePickListSorted();
 
         pickList.Shuffle();
-
-        Debug.Log("zort");
     }
 
+
+    private Vector3 FindNonOverlappingPosition()
+    {
+        Bounds ortographicCameraBounds = Camera.main.OrthographicBounds();
+
+        float ortographicCameraBounds_X_Half = ortographicCameraBounds.size.x / 2;
+        ortographicCameraBounds_X_Half -= 1; // margin from object center
+
+        float ortographicCameraBounds_Y_Half = ortographicCameraBounds.size.y / 2;
+        ortographicCameraBounds_Y_Half -= 1; // margin from object center
+
+        float minDistance = 1f;
+
+        Collider2D[] neighbours;
+        Vector2 pos;
+
+        do
+        {
+            pos = new Vector2(
+                Random.Range(-1 * ortographicCameraBounds_X_Half, ortographicCameraBounds_X_Half),
+                Random.Range(-1 * ortographicCameraBounds_Y_Half, ortographicCameraBounds_Y_Half));
+            neighbours = Physics2D.OverlapCircleAll(pos, minDistance);
+        } while (neighbours.Length > 0);
+
+        return new Vector3(pos.x, pos.y, 0f);
+    }
+
+    // Generates uniformly distributed random numbers for each object that add up to the totalObjectCount.
     private void AssignObjectCountsEach()
     {
-        pickList.Add(0); // rock
-        pickList.Add(1); // paper
-        pickList.Add(2); // scissors
-
-        pickList.Shuffle();
-
-        for (int i = 0; i < pickList.Count; i++)
+        List<int> fields = new List<int> { 0, 0, 0 };
+        int sum = 0;
+        for (int i = 0; i < fields.Count - 1; i++)
         {
-            if (totalObjectCount > 0)
-            {
-                switch (pickList[i])
-                {
-                    case 0: // rock
-                        AssignObjectCount(ref rockObjectCount);
-                        break;
-                    case 1: // paper
-                        AssignObjectCount(ref paperObjectCount);
-                        break;
-                    case 2: // scissors
-                        AssignObjectCount(ref scissorsObjectCount);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            if (i == pickList.Count - 1 && totalObjectCount > 0)
-            {
-                switch (pickList[i])
-                {
-                    case 0: // rock
-                        rockObjectCount += totalObjectCount;
-                        break;
-                    case 1: // paper
-                        paperObjectCount += totalObjectCount;
-                        break;
-                    case 2: // scissors
-                        scissorsObjectCount += totalObjectCount;
-                        break;
-                    default:
-                        break;
-                }
-            }
+            fields[i] = Random.Range(1, totalObjectCount);
+            sum += fields[i];
         }
+        int actualSum = sum * fields.Count / (fields.Count - 1);
+        sum = 0;
+        for (int i = 0; i < fields.Count - 1; i++)
+        {
+            fields[i] = fields[i] * totalObjectCount / actualSum;
+            sum += fields[i];
+        }
+        fields[fields.Count - 1] = totalObjectCount - sum;
+
+        fields.Shuffle();
+
+        rockObjectCount = fields[0];
+        paperObjectCount = fields[1];
+        scissorsObjectCount = fields[2];
     }
 
     private void PopulatePickListSorted()
@@ -130,24 +149,43 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void AssignObjectCount(ref int count)
+    public void InstantiateRockPrefab(Transform _transform)
     {
-        count = Random.Range(1, totalObjectCount + 1);
-        totalObjectCount -= count;
+        Instantiate(rockPrefab, _transform.position, _transform.rotation);
     }
 
-    public void InstantiateRockPrefab(Transform transform)
+    public void InstantiatePaperPrefab(Transform _transform)
     {
-        Instantiate(rockPrefab, transform.position, transform.rotation);
+        Instantiate(paperPrefab, _transform.position, _transform.rotation);
     }
 
-    public void InstantiatePaperPrefab(Transform transform)
+    public void InstantiateScissorsPrefab(Transform _transform)
     {
-        Instantiate(paperPrefab, transform.position, transform.rotation);
+        Instantiate(scissorsPrefab, _transform.position, _transform.rotation);
     }
 
-    public void InstantiateScissorsPrefab(Transform transform)
+    public void InstantiateRockPrefab(Vector3 pos)
     {
-        Instantiate(scissorsPrefab, transform.position, transform.rotation);
+        Instantiate(rockPrefab, pos, Quaternion.identity);
+    }
+
+    public void InstantiatePaperPrefab(Vector3 pos)
+    {
+        Instantiate(paperPrefab, pos, Quaternion.identity);
+    }
+
+    public void InstantiateScissorsPrefab(Vector3 pos)
+    {
+        Instantiate(scissorsPrefab, pos, Quaternion.identity);
+    }
+
+    public Vector2 GetGameViewBoundaries()
+    {
+        Bounds ortographicCameraBounds = Camera.main.OrthographicBounds();
+
+        float ortographicCameraBounds_X_Half = ortographicCameraBounds.size.x / 2;
+        float ortographicCameraBounds_Y_Half = ortographicCameraBounds.size.y / 2;
+
+        return new Vector2(ortographicCameraBounds_X_Half, ortographicCameraBounds_Y_Half);
     }
 }
