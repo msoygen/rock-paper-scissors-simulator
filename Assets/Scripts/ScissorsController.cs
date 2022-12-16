@@ -12,6 +12,9 @@ public class ScissorsController : MonoBehaviour
         {
             createNewInstanceOnDestroy = true;
             Destroy(gameObject);
+
+            GameManager.instance.AddToScissorsCount(-1);
+            GameManager.instance.AddToRockCount(1);
         }
     }
 

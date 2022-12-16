@@ -21,14 +21,20 @@ public class GameManager : MonoBehaviour
     public int totalObjectCount = 1000;
     public float speed = 9f;
 
-    private int rockObjectCount = 0;
-    private int paperObjectCount = 0;
-    private int scissorsObjectCount = 0;
+    public int RockCount { get => rockCount; }
+    private int rockCount = 0;
+
+    public int PaperCount { get => paperCount; }
+    private int paperCount = 0;
+
+    public int ScissorsCount { get => scissorsCount; }
+    private int scissorsCount = 0;
 
     // 0 rock 1 paper 2 scissors
     private List<int> pickList = new List<int>();
 
     public Vector2 GameViewBoundaries { get { return GetGameViewBoundaries(); } }
+
     private Vector2 gameViewBoundaries;
 
     private void Awake()
@@ -52,12 +58,11 @@ public class GameManager : MonoBehaviour
 
         gameViewBoundaries = new Vector2(ortographicCameraBounds_X_Half, ortographicCameraBounds_Y_Half);
 
-        PopulateGameScene();
+        CreatePickList();
     }
 
-    private void PopulateGameScene()
+    public void PopulateGameScene()
     {
-        CreatePickList();
         // instantiate using a scattering formation
         foreach (int pick in pickList)
         {
@@ -135,24 +140,24 @@ public class GameManager : MonoBehaviour
 
         fields.Shuffle();
 
-        rockObjectCount = fields[0];
-        paperObjectCount = fields[1];
-        scissorsObjectCount = fields[2];
+        rockCount = fields[0];
+        paperCount = fields[1];
+        scissorsCount = fields[2];
     }
 
     private void PopulatePickListSorted()
     {
-        for (int i = 0; i < rockObjectCount; i++)
+        for (int i = 0; i < rockCount; i++)
         {
             pickList.Add(0);
         }
 
-        for (int i = 0; i < paperObjectCount; i++)
+        for (int i = 0; i < paperCount; i++)
         {
             pickList.Add(1);
         }
 
-        for (int i = 0; i < scissorsObjectCount; i++)
+        for (int i = 0; i < scissorsCount; i++)
         {
             pickList.Add(2);
         }
@@ -176,5 +181,18 @@ public class GameManager : MonoBehaviour
     public Vector2 GetGameViewBoundaries()
     {
         return gameViewBoundaries;
+    }
+
+    public void AddToRockCount(int amount)
+    {
+        rockCount += amount;
+    }
+    public void AddToPaperCount(int amount)
+    {
+        paperCount += amount;
+    }
+    public void AddToScissorsCount(int amount)
+    {
+        scissorsCount += amount;
     }
 }

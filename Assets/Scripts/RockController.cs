@@ -12,6 +12,9 @@ public class RockController : MonoBehaviour
         {
             createNewInstanceOnDestroy = true;
             Destroy(gameObject);
+
+            GameManager.instance.AddToRockCount(-1);
+            GameManager.instance.AddToPaperCount(1);
         }
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,7 +19,7 @@ public class LoadingSceneUIManager : MonoBehaviour
     IEnumerator LoadYourAsyncScene()
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(GAME_SCENE_BUILD_INDEX);
-
+         
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)
         {
