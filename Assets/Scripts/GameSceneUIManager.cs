@@ -30,9 +30,9 @@ public class GameSceneUIManager : MonoBehaviour
 
     private void Start()
     {
-        rockCountText.text = "Rock Count: " + GameManager.instance.RockCount;
-        paperCountText.text = "Paper Count: " + GameManager.instance.PaperCount;
-        scissorsCountText.text = "Scissors Count: " + GameManager.instance.ScissorsCount;
+        rockCountText.text = GameManager.instance.RockCount.ToString();
+        paperCountText.text = GameManager.instance.PaperCount.ToString();
+        scissorsCountText.text = GameManager.instance.ScissorsCount.ToString();
     }
 
     private void LateUpdate()
@@ -87,8 +87,8 @@ public class GameSceneUIManager : MonoBehaviour
 
     private void UpdateGameStatsPanel()
     {
-        currentRockCountText.text = "Rock Count: " + GameManager.instance.RockCount;
-        currentPaperCountText.text = "Paper Count: " + GameManager.instance.PaperCount;
-        currentScissorsCountText.text = "Scissors Count: " + GameManager.instance.ScissorsCount;
+        rockCountText.text = GameManager.instance.RockCount.ToString();
+        paperCountText.text = GameManager.instance.PaperCount.ToString();
+        scissorsCountText.text = GameManager.instance.ScissorsCount.ToString();
     }
 }
