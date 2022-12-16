@@ -19,7 +19,7 @@ public class PaperController : MonoBehaviour
     {
         if (createNewInstanceOnDestroy)
         {
-            SessionManager.instance.InstantiateScissorsPrefab(transform.position);
+            GameManager.instance.InstantiateScissorsPrefab(transform.position);
             createNewInstanceOnDestroy = false;
         }
     }
