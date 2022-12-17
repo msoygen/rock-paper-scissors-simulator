@@ -12,9 +12,6 @@ public class PaperController : MonoBehaviour
         {
             createNewInstanceOnDestroy = true;
             Destroy(gameObject);
-
-            GameManager.instance.AddToPaperCount(-1);
-            GameManager.instance.AddToScissorsCount(1);
         }
     }
 
@@ -22,6 +19,8 @@ public class PaperController : MonoBehaviour
     {
         if (createNewInstanceOnDestroy)
         {
+            GameManager.instance.AddToPaperCount(-1);
+            GameManager.instance.AddToScissorsCount(1);
             GameManager.instance.InstantiateScissorsPrefab(transform.position);
             createNewInstanceOnDestroy = false;
         }

@@ -12,9 +12,6 @@ public class ScissorsController : MonoBehaviour
         {
             createNewInstanceOnDestroy = true;
             Destroy(gameObject);
-
-            GameManager.instance.AddToScissorsCount(-1);
-            GameManager.instance.AddToRockCount(1);
         }
     }
 
@@ -22,6 +19,8 @@ public class ScissorsController : MonoBehaviour
     {
         if (createNewInstanceOnDestroy)
         {
+            GameManager.instance.AddToScissorsCount(-1);
+            GameManager.instance.AddToRockCount(1);
             GameManager.instance.InstantiateRockPrefab(transform.position);
             createNewInstanceOnDestroy = false;
         }
