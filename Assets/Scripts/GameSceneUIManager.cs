@@ -1,16 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSceneUIManager : MonoBehaviour
 {
     [SerializeField]
     private Canvas canvas;
     [SerializeField]
-    private GameObject selectWinnerPanel;
+    private GameObject selectWinnerParent;
     [SerializeField]
-    private GameObject gameStatsPanel;
+    private GameObject gameStatsParent;
     [SerializeField]
     private TMP_Text rockCountText;
     [SerializeField]
@@ -25,19 +24,29 @@ public class GameSceneUIManager : MonoBehaviour
     private TMP_Text currentScissorsCountText;
     [SerializeField]
     private TMP_Text playersPickText;
+    [SerializeField]
+    private Image playersPickImage;
+
+    [SerializeField]
+    private Material rockTextMaterial;
+    [SerializeField]
+    private Material paperTextMaterial;
+    [SerializeField]
+    private Material scissorsTextMaterial;
+
+    [SerializeField]
+    private Sprite rockSprite;
+    [SerializeField]
+    private Sprite paperSprite;
+    [SerializeField]
+    private Sprite scissorsSprite;
 
     private int winnerPick = 0; // 0 rock, 1 paper, 2 scissors
 
-    private void Start()
-    {
-        rockCountText.text = GameManager.instance.RockCount.ToString();
-        paperCountText.text = GameManager.instance.PaperCount.ToString();
-        scissorsCountText.text = GameManager.instance.ScissorsCount.ToString();
-    }
-
     private void LateUpdate()
     {
-        UpdateGameStatsPanel();
+        UpdateGameStatsObject();
+        UpdateSelectWinnerObject();
     }
 
     public void ToggleCanvas()
@@ -47,48 +56,64 @@ public class GameSceneUIManager : MonoBehaviour
 
     public void ToggleSelectWinnerPanel()
     {
-        selectWinnerPanel.SetActive(!selectWinnerPanel.gameObject.activeSelf);
+        selectWinnerParent.SetActive(!selectWinnerParent.gameObject.activeSelf);
     }
 
     public void ToggleGameStatsPanel()
     {
-        gameStatsPanel.SetActive(!gameStatsPanel.gameObject.activeSelf);
+        gameStatsParent.SetActive(!gameStatsParent.gameObject.activeSelf);
     }
 
     public void OnRockButtonClicked()
     {
         winnerPick = 0;
-        playersPickText.text = "Your Pick: Rock";
         GameManager.instance.PopulateGameScene();
-        ToggleSelectWinnerPanel();
+
         ToggleGameStatsPanel();
-        UpdateGameStatsPanel();
+        ToggleSelectWinnerPanel();
+
+        playersPickText.fontMaterial = rockTextMaterial;
+        playersPickText.color = new Color(155, 150, 163);
+        playersPickImage.sprite = rockSprite;
     }
 
     public void OnPaperButtonClicked()
     {
         winnerPick = 1;
-        playersPickText.text = "Your Pick: Paper";
         GameManager.instance.PopulateGameScene();
-        ToggleSelectWinnerPanel();
+
         ToggleGameStatsPanel();
-        UpdateGameStatsPanel();
+        ToggleSelectWinnerPanel();
+
+        playersPickText.fontMaterial = paperTextMaterial;
+        playersPickText.color = new Color(229, 223, 238);
+        playersPickImage.sprite = paperSprite;
     }
 
     public void OnScissorsButtonClicked()
     {
         winnerPick = 2;
-        playersPickText.text = "Your Pick: Scissors";
         GameManager.instance.PopulateGameScene();
-        ToggleSelectWinnerPanel();
+
         ToggleGameStatsPanel();
-        UpdateGameStatsPanel();
+        ToggleSelectWinnerPanel();
+
+        playersPickText.fontMaterial = scissorsTextMaterial;
+        playersPickText.color = new Color(148, 3, 21);
+        playersPickImage.sprite = scissorsSprite;
     }
 
-    private void UpdateGameStatsPanel()
+    private void UpdateGameStatsObject()
     {
-        rockCountText.text = GameManager.instance.RockCount.ToString();
-        paperCountText.text = GameManager.instance.PaperCount.ToString();
-        scissorsCountText.text = GameManager.instance.ScissorsCount.ToString();
+        currentRockCountText.SetText(GameManager.instance.RockCount.ToString());
+        currentPaperCountText.SetText(GameManager.instance.PaperCount.ToString());
+        currentScissorsCountText.SetText(GameManager.instance.ScissorsCount.ToString());
+    }
+
+    private void UpdateSelectWinnerObject()
+    {
+        rockCountText.SetText(GameManager.instance.RockCount.ToString());
+        paperCountText.SetText(GameManager.instance.PaperCount.ToString());
+        scissorsCountText.SetText(GameManager.instance.ScissorsCount.ToString());
     }
 }
