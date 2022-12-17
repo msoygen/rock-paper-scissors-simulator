@@ -28,18 +28,18 @@ public class GameSceneUIManager : MonoBehaviour
     private Image playersPickImage;
 
     [SerializeField]
-    private Material rockTextMaterial;
-    [SerializeField]
-    private Material paperTextMaterial;
-    [SerializeField]
-    private Material scissorsTextMaterial;
-
-    [SerializeField]
     private Sprite rockSprite;
     [SerializeField]
     private Sprite paperSprite;
     [SerializeField]
     private Sprite scissorsSprite;
+    
+    [SerializeField]
+    private Material rockTextMaterial;
+    [SerializeField]
+    private Material paperTextMaterial;
+    [SerializeField]
+    private Material scissorsTextMaterial;
 
     private int winnerPick = 0; // 0 rock, 1 paper, 2 scissors
 
