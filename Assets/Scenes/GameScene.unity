@@ -178,12 +178,6 @@ MonoBehaviour:
   currentScissorsCountText: {fileID: 828492060}
   playersPickText: {fileID: 1103882105}
   playersPickImage: {fileID: 1396477435}
-  rockTextMaterial: {fileID: 2100000, guid: d64f9bbadbd34aa4fb7438fe76bf10f1, type: 2}
-  paperTextMaterial: {fileID: 2100000, guid: 5bedfea1e4b1a2b4dac9112df3717ff5, type: 2}
-  scissorsTextMaterial: {fileID: 2100000, guid: 906ed3e06c5d2d6439e0202368154c1c, type: 2}
-  rockSprite: {fileID: 21300000, guid: b77125ed9b7eac74e9881c3ad7dc7a84, type: 3}
-  paperSprite: {fileID: 21300000, guid: 85115b9dc8c78c845bc08f45f6f72231, type: 3}
-  scissorsSprite: {fileID: 21300000, guid: b26eeb0b6d5a5334194e9138038666c6, type: 3}
 --- !u!1 &103817360
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,7 +1113,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 7
+  orthographic size: 25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -3039,7 +3033,7 @@ PrefabInstance:
       objectReference: {fileID: 1016735500}
     - target: {fileID: 9007913388775518215, guid: 41195b4d4350ad74b8d5d060411bf84a, type: 3}
       propertyPath: totalObjectCount
-      value: 100
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9007913388775518215, guid: 41195b4d4350ad74b8d5d060411bf84a, type: 3}
       propertyPath: gameSceneUIManager

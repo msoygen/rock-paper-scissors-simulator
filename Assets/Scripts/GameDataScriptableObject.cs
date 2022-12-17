@@ -14,7 +14,8 @@ public class GameDataScriptableObject : ScriptableObject
         Fallback
     }
 
-    public int totalObjectSize = 0;
+    public int totalObjectCount = 0;
+    public float objectSpeed = 9f;
 
     public GameObject rockPrefab;
     public GameObject paperPrefab;

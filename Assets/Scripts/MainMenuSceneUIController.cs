@@ -60,6 +60,77 @@ public class MainMenuSceneUIController : MonoBehaviour
     public void OnPlayButtonClicked()
     {
         SceneManager.LoadScene(LOADING_SCENE_BUILD_INDEX);
+
+        int sliderVal = (int)simulationSizeSlider.value;
+        GameData.GameDataScriptableObject.totalObjectCount = sliderVal;
+
+        /*
+            0-50 -> 5 -> 3
+            50-100 -> 7 -> 3
+            100-200 -> 10 -> 4
+            200-300 -> 13 -> 4
+            300-400 -> 15 -> 6
+            400-500 -> 16.5 -> 6
+            500-600 -> 17.5 -> 7
+            600-700 -> 18.5 -> 7
+            700-800 -> 19.5 -> 8
+            800-900 -> 20.5 -> 8
+            900-1000 -> 22 -> 9
+         */
+        if(sliderVal > 0 && sliderVal <= 50)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 5f;
+            GameData.GameDataScriptableObject.objectSpeed = 3f;
+        }else if (sliderVal > 50 && sliderVal <= 100)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 7f;
+            GameData.GameDataScriptableObject.objectSpeed = 3f;
+        }
+        else if (sliderVal > 100 && sliderVal <= 200)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 10f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 200 && sliderVal <= 300)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 13f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 300 && sliderVal <= 400)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 15f;
+            GameData.GameDataScriptableObject.objectSpeed = 6f;
+        }
+        else if (sliderVal > 400 && sliderVal <= 500)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 16.5f;
+            GameData.GameDataScriptableObject.objectSpeed = 6f;
+        }
+        else if (sliderVal > 500 && sliderVal <= 600)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 17.5f;
+            GameData.GameDataScriptableObject.objectSpeed = 7f;
+        }
+        else if (sliderVal > 600 && sliderVal <= 700)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 18.5f;
+            GameData.GameDataScriptableObject.objectSpeed = 7f;
+        }
+        else if (sliderVal > 700 && sliderVal <= 800)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 19.5f;
+            GameData.GameDataScriptableObject.objectSpeed = 8f;
+        }
+        else if (sliderVal > 800 && sliderVal <= 900)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 20.5f;
+            GameData.GameDataScriptableObject.objectSpeed = 8f;
+        }
+        else if (sliderVal > 900 && sliderVal <= 1000)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 22f;
+            GameData.GameDataScriptableObject.objectSpeed = 9f;
+        }
     }
 
     public void OnSliderValueChanged()
@@ -98,7 +169,7 @@ public class MainMenuSceneUIController : MonoBehaviour
                 highlightedColor.a = 0.78f;
                 dummyColorBlock.highlightedColor = highlightedColor;
 
-                button.colors = dummyColorBlock; 
+                button.colors = dummyColorBlock;
 
                 yield return new WaitForSeconds(1f);
             }

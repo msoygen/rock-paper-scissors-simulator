@@ -12,30 +12,10 @@ public class GameManager : MonoBehaviour
 
     public GameSceneUIManager gameSceneUIManager;
 
-    public GameObject rockPrefab;
-    public GameObject paperPrefab;
-    public GameObject scissorsPrefab;
-
     public GameObject sessionObjects;
-
-    public int totalObjectCount = 1000;
-    public float speed = 9f;
-
-    public int RockCount { get => rockCount; }
-    private int rockCount = 0;
-
-    public int PaperCount { get => paperCount; }
-    private int paperCount = 0;
-
-    public int ScissorsCount { get => scissorsCount; }
-    private int scissorsCount = 0;
 
     // 0 rock 1 paper 2 scissors
     private List<int> pickList = new List<int>();
-
-    public Vector2 GameViewBoundaries { get { return GetGameViewBoundaries(); } }
-
-    private Vector2 gameViewBoundaries;
 
     private void Awake()
     {
@@ -51,13 +31,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Bounds ortographicCameraBounds = Camera.main.OrthographicBounds();
-
-        float ortographicCameraBounds_X_Half = ortographicCameraBounds.size.x / 2;
-        float ortographicCameraBounds_Y_Half = ortographicCameraBounds.size.y / 2;
-
-        gameViewBoundaries = new Vector2(ortographicCameraBounds_X_Half, ortographicCameraBounds_Y_Half);
-
+        Camera.main.orthographicSize = GameData.GameDataScriptableObject.orthograpicCameraSize;
+        GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
         CreatePickList();
     }
 
@@ -95,14 +70,6 @@ public class GameManager : MonoBehaviour
     }
     private Vector3 FindNonOverlappingPosition()
     {
-        Bounds ortographicCameraBounds = Camera.main.OrthographicBounds();
-
-        float ortographicCameraBounds_X_Half = ortographicCameraBounds.size.x / 2;
-        ortographicCameraBounds_X_Half -= 1; // margin from object center
-
-        float ortographicCameraBounds_Y_Half = ortographicCameraBounds.size.y / 2;
-        ortographicCameraBounds_Y_Half -= 1; // margin from object center
-
         float minDistance = 1f;
 
         Collider2D[] neighbours;
@@ -111,8 +78,8 @@ public class GameManager : MonoBehaviour
         do
         {
             pos = new Vector2(
-                Random.Range(-1 * ortographicCameraBounds_X_Half, ortographicCameraBounds_X_Half),
-                Random.Range(-1 * ortographicCameraBounds_Y_Half, ortographicCameraBounds_Y_Half));
+                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.x-1), (GameData.GameDataScriptableObject.GameViewBoundaries.x-1)),
+                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.y-1), (GameData.GameDataScriptableObject.GameViewBoundaries.y-1)));
             neighbours = Physics2D.OverlapCircleAll(pos, minDistance);
         } while (neighbours.Length > 0);
 
@@ -126,38 +93,38 @@ public class GameManager : MonoBehaviour
         int sum = 0;
         for (int i = 0; i < fields.Count - 1; i++)
         {
-            fields[i] = Random.Range(1, totalObjectCount);
+            fields[i] = Random.Range(1, GameData.GameDataScriptableObject.totalObjectCount);
             sum += fields[i];
         }
         int actualSum = sum * fields.Count / (fields.Count - 1);
         sum = 0;
         for (int i = 0; i < fields.Count - 1; i++)
         {
-            fields[i] = fields[i] * totalObjectCount / actualSum;
+            fields[i] = fields[i] * GameData.GameDataScriptableObject.totalObjectCount / actualSum;
             sum += fields[i];
         }
-        fields[fields.Count - 1] = totalObjectCount - sum;
+        fields[fields.Count - 1] = GameData.GameDataScriptableObject.totalObjectCount - sum;
 
         fields.Shuffle();
 
-        rockCount = fields[0];
-        paperCount = fields[1];
-        scissorsCount = fields[2];
+        GameData.GameDataScriptableObject.rockCount = fields[0];
+        GameData.GameDataScriptableObject.paperCount = fields[1];
+        GameData.GameDataScriptableObject.scissorsCount = fields[2];
     }
 
     private void PopulatePickListSorted()
     {
-        for (int i = 0; i < rockCount; i++)
+        for (int i = 0; i < GameData.GameDataScriptableObject.rockCount; i++)
         {
             pickList.Add(0);
         }
 
-        for (int i = 0; i < paperCount; i++)
+        for (int i = 0; i < GameData.GameDataScriptableObject.paperCount; i++)
         {
             pickList.Add(1);
         }
 
-        for (int i = 0; i < scissorsCount; i++)
+        for (int i = 0; i < GameData.GameDataScriptableObject.scissorsCount; i++)
         {
             pickList.Add(2);
         }
@@ -165,34 +132,29 @@ public class GameManager : MonoBehaviour
 
     public void InstantiateRockPrefab(Vector3 pos)
     {
-        Instantiate(rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        Instantiate(GameData.GameDataScriptableObject.rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
     }
 
     public void InstantiatePaperPrefab(Vector3 pos)
     {
-        Instantiate(paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        Instantiate(GameData.GameDataScriptableObject.paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
     }
 
     public void InstantiateScissorsPrefab(Vector3 pos)
     {
-        Instantiate(scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
     }
 
-    public Vector2 GetGameViewBoundaries()
+    public void UpdateRockCount(int amount)
     {
-        return gameViewBoundaries;
+        GameData.GameDataScriptableObject.rockCount += amount;
     }
-
-    public void AddToRockCount(int amount)
+    public void UpdatePaperCount(int amount)
     {
-        rockCount += amount;
+        GameData.GameDataScriptableObject.paperCount += amount;
     }
-    public void AddToPaperCount(int amount)
+    public void UpdateScissorsCount(int amount)
     {
-        paperCount += amount;
-    }
-    public void AddToScissorsCount(int amount)
-    {
-        scissorsCount += amount;
+        GameData.GameDataScriptableObject.scissorsCount += amount;
     }
 }

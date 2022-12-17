@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-        gameViewBoundaries = GameManager.instance.GetGameViewBoundaries();
+        gameViewBoundaries = GameData.GameDataScriptableObject.GameViewBoundaries;
     }
 
     private void FixedUpdate()
@@ -36,7 +36,7 @@ public class Movement : MonoBehaviour
 
         Profiler.BeginSample("MovePosition");
 
-        rb2D.MovePosition(rb2D.position + direction * GameManager.instance.speed * Time.fixedDeltaTime);
+        rb2D.MovePosition(rb2D.position + direction * GameData.GameDataScriptableObject.objectSpeed * Time.fixedDeltaTime);
 
         Profiler.EndSample();
     }

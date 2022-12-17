@@ -19,8 +19,8 @@ public class RockController : MonoBehaviour
     {
         if (createNewInstanceOnDestroy)
         {
-            GameManager.instance.AddToRockCount(-1);
-            GameManager.instance.AddToPaperCount(1);
+            GameManager.instance.UpdateRockCount(-1);
+            GameManager.instance.UpdatePaperCount(1);
             GameManager.instance.InstantiatePaperPrefab(transform.position);
             createNewInstanceOnDestroy = false;
         }

@@ -27,22 +27,6 @@ public class GameSceneUIManager : MonoBehaviour
     [SerializeField]
     private Image playersPickImage;
 
-    [SerializeField]
-    private Sprite rockSprite;
-    [SerializeField]
-    private Sprite paperSprite;
-    [SerializeField]
-    private Sprite scissorsSprite;
-    
-    [SerializeField]
-    private Material rockTextMaterial;
-    [SerializeField]
-    private Material paperTextMaterial;
-    [SerializeField]
-    private Material scissorsTextMaterial;
-
-    private int winnerPick = 0; // 0 rock, 1 paper, 2 scissors
-
     private void LateUpdate()
     {
         UpdateGameStatsObject();
@@ -66,54 +50,54 @@ public class GameSceneUIManager : MonoBehaviour
 
     public void OnRockButtonClicked()
     {
-        winnerPick = 0;
+        GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Rock;
         GameManager.instance.PopulateGameScene();
 
         ToggleGameStatsPanel();
         ToggleSelectWinnerPanel();
 
-        playersPickText.fontMaterial = rockTextMaterial;
+        playersPickText.fontMaterial = GameData.GameDataScriptableObject.RockTextMaterial;
         playersPickText.color = new Color(155, 150, 163);
-        playersPickImage.sprite = rockSprite;
+        playersPickImage.sprite = GameData.GameDataScriptableObject.RockSprite;
     }
 
     public void OnPaperButtonClicked()
     {
-        winnerPick = 1;
+        GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Paper;
         GameManager.instance.PopulateGameScene();
 
         ToggleGameStatsPanel();
         ToggleSelectWinnerPanel();
 
-        playersPickText.fontMaterial = paperTextMaterial;
+        playersPickText.fontMaterial = GameData.GameDataScriptableObject.PaperTextMaterial;
         playersPickText.color = new Color(229, 223, 238);
-        playersPickImage.sprite = paperSprite;
+        playersPickImage.sprite = GameData.GameDataScriptableObject.PaperSprite;
     }
 
     public void OnScissorsButtonClicked()
     {
-        winnerPick = 2;
+        GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Scissors;
         GameManager.instance.PopulateGameScene();
 
         ToggleGameStatsPanel();
         ToggleSelectWinnerPanel();
 
-        playersPickText.fontMaterial = scissorsTextMaterial;
+        playersPickText.fontMaterial = GameData.GameDataScriptableObject.ScissorsTextMaterial;
         playersPickText.color = new Color(148, 3, 21);
-        playersPickImage.sprite = scissorsSprite;
+        playersPickImage.sprite = GameData.GameDataScriptableObject.ScissorsSprite;
     }
 
     private void UpdateGameStatsObject()
     {
-        currentRockCountText.SetText(GameManager.instance.RockCount.ToString());
-        currentPaperCountText.SetText(GameManager.instance.PaperCount.ToString());
-        currentScissorsCountText.SetText(GameManager.instance.ScissorsCount.ToString());
+        currentRockCountText.SetText(GameData.GameDataScriptableObject.rockCount.ToString());
+        currentPaperCountText.SetText(GameData.GameDataScriptableObject.paperCount.ToString());
+        currentScissorsCountText.SetText(GameData.GameDataScriptableObject.scissorsCount.ToString());
     }
 
     private void UpdateSelectWinnerObject()
     {
-        rockCountText.SetText(GameManager.instance.RockCount.ToString());
-        paperCountText.SetText(GameManager.instance.PaperCount.ToString());
-        scissorsCountText.SetText(GameManager.instance.ScissorsCount.ToString());
+        rockCountText.SetText(GameData.GameDataScriptableObject.rockCount.ToString());
+        paperCountText.SetText(GameData.GameDataScriptableObject.paperCount.ToString());
+        scissorsCountText.SetText(GameData.GameDataScriptableObject.scissorsCount.ToString());
     }
 }
