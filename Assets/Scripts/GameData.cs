@@ -12,7 +12,7 @@ public static class GameData
     {
         if(gameDataScriptableObject == null)
         {
-            gameDataScriptableObject = (GameDataScriptableObject)Resources.Load("GameData");
+            gameDataScriptableObject = Resources.Load("GameData", typeof(GameDataScriptableObject)) as GameDataScriptableObject;
         }
 
         return gameDataScriptableObject;

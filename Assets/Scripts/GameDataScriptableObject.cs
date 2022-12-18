@@ -62,9 +62,9 @@ public class GameDataScriptableObject : ScriptableObject
         rockTextMaterial = Resources.Load("Materials/RockTextFontMaterial", typeof(Material)) as Material;
         paperTextMaterial = Resources.Load("Materials/PaperTextFontMaterial", typeof(Material)) as Material;
         scissorsTextMaterial = Resources.Load("Materials/ScissorsTextFontMaterial", typeof(Material)) as Material;
-        rockSprite = Resources.Load("Sprites/rock_pixelart") as Sprite;
-        paperSprite = Resources.Load("Sprites/paper_pixelart") as Sprite;
-        scissorsSprite = Resources.Load("Sprites/scissors_pixelart") as Sprite;
+        rockSprite = Resources.Load("Sprites/rock_pixelart", typeof(Sprite)) as Sprite;
+        paperSprite = Resources.Load("Sprites/paper_pixelart", typeof(Sprite)) as Sprite;
+        scissorsSprite = Resources.Load("Sprites/scissors_pixelart", typeof(Sprite)) as Sprite;
     }
 
     public void UpdateGameViewBoundaries()
