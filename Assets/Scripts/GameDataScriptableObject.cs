@@ -41,6 +41,9 @@ public class GameDataScriptableObject : ScriptableObject
     public readonly Color PAPER_TEXT_COLOR_DARK = new Color(57f / 255f, 56f / 255f, 69f / 255f);
     public readonly Color SCISSORS_TEXT_COLOR_DARK = new Color(92f / 255f, 0f, 9f / 255f);
 
+    public readonly Color GAME_OVER_WIN_COLOR = new Color(0f, 100f / 255f, 0f, 200f / 225f);
+    public readonly Color GAME_OVER_LOSE_COLOR = new Color(100f / 255f, 0f, 0f, 200f / 225f);
+
     public Material RockTextMaterial { get => rockTextMaterial; }
     private Material rockTextMaterial;
 
@@ -88,5 +91,17 @@ public class GameDataScriptableObject : ScriptableObject
     public void AddToScissorsCount(int amount)
     {
         scissorsCount += amount;
+    }
+    public void UpdateRockCount(int amount)
+    {
+        GameData.GameDataScriptableObject.rockCount += amount;
+    }
+    public void UpdatePaperCount(int amount)
+    {
+        GameData.GameDataScriptableObject.paperCount += amount;
+    }
+    public void UpdateScissorsCount(int amount)
+    {
+        GameData.GameDataScriptableObject.scissorsCount += amount;
     }
 }

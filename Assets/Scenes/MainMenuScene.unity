@@ -2027,6 +2027,9 @@ MonoBehaviour:
   simulationSizeText: {fileID: 559924806}
   chosenSimulationSizeText: {fileID: 312479860}
   simulationSizeSlider: {fileID: 1192320367}
+  simulationSizeSlider_BackgroundImage: {fileID: 658822351}
+  simulationSizeSlider_FillImage: {fileID: 428338897}
+  simulationSizeSlider_HandleImage: {fileID: 715928270}
 --- !u!4 &1637064779
 Transform:
   m_ObjectHideFlags: 0

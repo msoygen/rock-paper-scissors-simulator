@@ -36,6 +36,21 @@ public class GameManager : MonoBehaviour
         CreatePickList();
     }
 
+    private void LateUpdate()
+    {
+        if(GameData.GameDataScriptableObject.rockCount == 0 && GameData.GameDataScriptableObject.paperCount == 0)
+        {
+            gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Scissors);
+        }else if (GameData.GameDataScriptableObject.paperCount == 0 && GameData.GameDataScriptableObject.scissorsCount == 0)
+        {
+            gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Rock);
+        }
+        else if (GameData.GameDataScriptableObject.scissorsCount == 0 && GameData.GameDataScriptableObject.rockCount == 0)
+        {
+            gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Paper);
+        }
+    }
+
     public void PopulateGameScene()
     {
         // instantiate using a scattering formation
@@ -87,6 +102,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Generates uniformly distributed random numbers for each object that add up to the totalObjectCount.
+    // TODO generates 0 values
     private void AssignObjectCountsEach()
     {
         List<int> fields = new List<int> { 0, 0, 0 };
@@ -143,18 +159,5 @@ public class GameManager : MonoBehaviour
     public void InstantiateScissorsPrefab(Vector3 pos)
     {
         Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
-    }
-
-    public void UpdateRockCount(int amount)
-    {
-        GameData.GameDataScriptableObject.rockCount += amount;
-    }
-    public void UpdatePaperCount(int amount)
-    {
-        GameData.GameDataScriptableObject.paperCount += amount;
-    }
-    public void UpdateScissorsCount(int amount)
-    {
-        GameData.GameDataScriptableObject.scissorsCount += amount;
     }
 }
