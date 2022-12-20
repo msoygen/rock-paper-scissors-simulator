@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour
         Camera.main.orthographicSize = GameData.GameDataScriptableObject.orthograpicCameraSize;
         GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
         CreatePickList();
+        PopulateGameScene();
+        Time.timeScale = 0f;
     }
 
     private void Update()

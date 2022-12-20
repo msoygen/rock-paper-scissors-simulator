@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,6 +52,10 @@ public class GameSceneUIManager : MonoBehaviour
     [SerializeField]
     private Button MainMenuButton;
 
+    private void Start()
+    {
+    }
+
     private void LateUpdate()
     {
         UpdateGameStatsObject();
@@ -78,7 +84,6 @@ public class GameSceneUIManager : MonoBehaviour
     public void OnRockButtonClicked()
     {
         GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Rock;
-        GameManager.instance.PopulateGameScene();
 
         ToggleGameStatsPanel();
         ToggleSelectWinnerPanel();
@@ -86,12 +91,13 @@ public class GameSceneUIManager : MonoBehaviour
         playersPickText.fontMaterial = GameData.GameDataScriptableObject.RockTextMaterial;
         playersPickText.color = GameData.GameDataScriptableObject.ROCK_TEXT_COLOR;
         playersPickImage.sprite = GameData.GameDataScriptableObject.RockSprite;
+
+        Time.timeScale = 1f;
     }
 
     public void OnPaperButtonClicked()
     {
         GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Paper;
-        GameManager.instance.PopulateGameScene();
 
         ToggleGameStatsPanel();
         ToggleSelectWinnerPanel();
@@ -99,12 +105,13 @@ public class GameSceneUIManager : MonoBehaviour
         playersPickText.fontMaterial = GameData.GameDataScriptableObject.PaperTextMaterial;
         playersPickText.color = GameData.GameDataScriptableObject.PAPER_TEXT_COLOR;
         playersPickImage.sprite = GameData.GameDataScriptableObject.PaperSprite;
+
+        Time.timeScale = 1f;
     }
 
     public void OnScissorsButtonClicked()
     {
         GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Scissors;
-        GameManager.instance.PopulateGameScene();
 
         ToggleGameStatsPanel();
         ToggleSelectWinnerPanel();
@@ -112,6 +119,8 @@ public class GameSceneUIManager : MonoBehaviour
         playersPickText.fontMaterial = GameData.GameDataScriptableObject.ScissorsTextMaterial;
         playersPickText.color = GameData.GameDataScriptableObject.SCISSORS_TEXT_COLOR;
         playersPickImage.sprite = GameData.GameDataScriptableObject.ScissorsSprite;
+
+        Time.timeScale = 1f;
     }
 
     public void OnRestartButtonClicked()
