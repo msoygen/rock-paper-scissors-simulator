@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class RockController : MonoBehaviour
 {
-    bool createNewInstanceOnDestroy = false;
+    private bool anyContactPointTriggered = false;
+
+    private void Awake()
+    {
+        anyContactPointTriggered = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Paper"))
+        if (collision.gameObject.CompareTag("Paper") && !anyContactPointTriggered)
         {
-            createNewInstanceOnDestroy = true;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            GameData.GameDataScriptableObject.UpdateRockCount(-1);
+            GameManager.instance.AddNonActiveGameObject(GameDataScriptableObject.ObjectType.Rock, gameObject);
+
+            GameData.GameDataScriptableObject.UpdatePaperCount(1);
+            GameManager.instance.InstantiatePaperPrefab(transform.position);
+
+            anyContactPointTriggered = true;
         }
     }
 
-    private void OnDestroy()
+    private void OnEnable()
     {
-        if (createNewInstanceOnDestroy)
-        {
-            GameData.GameDataScriptableObject.UpdateRockCount(-1);
-            GameData.GameDataScriptableObject.UpdatePaperCount(1);
-            GameManager.instance.InstantiatePaperPrefab(transform.position);
-            createNewInstanceOnDestroy = false;
-        }
+        anyContactPointTriggered = false;
     }
 }

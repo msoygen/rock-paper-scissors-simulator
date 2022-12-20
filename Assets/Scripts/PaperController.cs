@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class PaperController : MonoBehaviour
 {
-    bool createNewInstanceOnDestroy = false;
+    private bool anyContactPointTriggered = false;
+
+    private void Awake()
+    {
+        anyContactPointTriggered = false;
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Scissors"))
+        if (collision.gameObject.CompareTag("Scissors") && !anyContactPointTriggered)
         {
-            createNewInstanceOnDestroy = true;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            GameData.GameDataScriptableObject.UpdatePaperCount(-1);
+            GameManager.instance.AddNonActiveGameObject(GameDataScriptableObject.ObjectType.Paper, gameObject);
+
+            GameData.GameDataScriptableObject.UpdateScissorsCount(1);
+            GameManager.instance.InstantiateScissorsPrefab(transform.position);
+
+            anyContactPointTriggered = true;
         }
     }
 
-    private void OnDestroy()
+    private void OnEnable()
     {
-        if (createNewInstanceOnDestroy)
-        {
-            GameData.GameDataScriptableObject.UpdatePaperCount(-1);
-            GameData.GameDataScriptableObject.UpdateScissorsCount(1);
-            GameManager.instance.InstantiateScissorsPrefab(transform.position);
-            createNewInstanceOnDestroy = false;
-        }
+        anyContactPointTriggered = false;
     }
 }

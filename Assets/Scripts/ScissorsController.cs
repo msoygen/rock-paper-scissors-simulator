@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class ScissorsController : MonoBehaviour
 {
-    bool createNewInstanceOnDestroy = false;
+    private bool anyContactPointTriggered = false;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Rock"))
+        if (collision.gameObject.CompareTag("Rock") && !anyContactPointTriggered)
         {
-            createNewInstanceOnDestroy = true;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            GameData.GameDataScriptableObject.UpdateScissorsCount(-1);
+            GameManager.instance.AddNonActiveGameObject(GameDataScriptableObject.ObjectType.Scissors, gameObject);
+
+            GameData.GameDataScriptableObject.UpdateRockCount(1);
+            GameManager.instance.InstantiateRockPrefab(transform.position);
+
+            anyContactPointTriggered = true;
         }
     }
 
-    private void OnDestroy()
+    private void OnEnable()
     {
-        if (createNewInstanceOnDestroy)
-        {
-            GameData.GameDataScriptableObject.UpdateScissorsCount(-1);
-            GameData.GameDataScriptableObject.UpdateRockCount(1);
-            GameManager.instance.InstantiateRockPrefab(transform.position);
-            createNewInstanceOnDestroy = false;
-        }
+        anyContactPointTriggered = false;
     }
 }

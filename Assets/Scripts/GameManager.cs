@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject sessionObjects;
 
+    private Dictionary<GameDataScriptableObject.ObjectType, Dictionary<int, GameObject>> nonActiveObjectsPool = new Dictionary<GameDataScriptableObject.ObjectType, Dictionary<int, GameObject>>();
+
     // 0 rock 1 paper 2 scissors
     private List<int> pickList = new List<int>();
 
@@ -36,12 +38,21 @@ public class GameManager : MonoBehaviour
         CreatePickList();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            SceneManager.LoadScene(0);
+        }
+    }
+
     private void LateUpdate()
     {
-        if(GameData.GameDataScriptableObject.rockCount == 0 && GameData.GameDataScriptableObject.paperCount == 0)
+        if (GameData.GameDataScriptableObject.rockCount == 0 && GameData.GameDataScriptableObject.paperCount == 0)
         {
             gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Scissors);
-        }else if (GameData.GameDataScriptableObject.paperCount == 0 && GameData.GameDataScriptableObject.scissorsCount == 0)
+        }
+        else if (GameData.GameDataScriptableObject.paperCount == 0 && GameData.GameDataScriptableObject.scissorsCount == 0)
         {
             gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Rock);
         }
@@ -93,8 +104,8 @@ public class GameManager : MonoBehaviour
         do
         {
             pos = new Vector2(
-                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.x-1), (GameData.GameDataScriptableObject.GameViewBoundaries.x-1)),
-                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.y-1), (GameData.GameDataScriptableObject.GameViewBoundaries.y-1)));
+                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.x - 1), (GameData.GameDataScriptableObject.GameViewBoundaries.x - 1)),
+                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.y - 1), (GameData.GameDataScriptableObject.GameViewBoundaries.y - 1)));
             neighbours = Physics2D.OverlapCircleAll(pos, minDistance);
         } while (neighbours.Length > 0);
 
@@ -148,16 +159,70 @@ public class GameManager : MonoBehaviour
 
     public void InstantiateRockPrefab(Vector3 pos)
     {
-        Instantiate(GameData.GameDataScriptableObject.rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        GameObject nonActiveRockObject;
+        if (TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType.Rock, out nonActiveRockObject))
+        {
+            nonActiveRockObject.SetActive(true);
+            nonActiveRockObject.transform.position = pos;
+        }
+        else
+        {
+            Instantiate(GameData.GameDataScriptableObject.rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        }
     }
 
     public void InstantiatePaperPrefab(Vector3 pos)
     {
-        Instantiate(GameData.GameDataScriptableObject.paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        GameObject nonActivePaperObject;
+        if (TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType.Paper, out nonActivePaperObject))
+        {
+            nonActivePaperObject.SetActive(true);
+            nonActivePaperObject.transform.position = pos;
+        }
+        else
+        {
+            Instantiate(GameData.GameDataScriptableObject.paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        }
     }
 
     public void InstantiateScissorsPrefab(Vector3 pos)
     {
-        Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        GameObject nonActiveScissorsObject;
+        if (TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType.Scissors, out nonActiveScissorsObject))
+        {
+            nonActiveScissorsObject.SetActive(true);
+            nonActiveScissorsObject.transform.position = pos;
+        }
+        else
+        {
+            Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
+        }
+    }
+
+    public void AddNonActiveGameObject(GameDataScriptableObject.ObjectType objectType, GameObject _gameObject)
+    {
+        if (!nonActiveObjectsPool.ContainsKey(objectType))
+        {
+            nonActiveObjectsPool.Add(objectType, new Dictionary<int, GameObject>());
+        }
+        if (!nonActiveObjectsPool[objectType].ContainsKey(_gameObject.GetInstanceID()))
+        {
+            nonActiveObjectsPool[objectType].Add(_gameObject.GetInstanceID(), _gameObject);
+        }
+    }
+
+    private bool TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType type, out GameObject nonActiveGameObject)
+    {
+        nonActiveGameObject = null;
+
+        if (!nonActiveObjectsPool.ContainsKey(type)) return false;
+        if (nonActiveObjectsPool[type].Count == 0) return false;
+
+        var pair = nonActiveObjectsPool[type].First();
+
+        nonActiveGameObject = pair.Value;
+        nonActiveObjectsPool[type].Remove(pair.Key);
+
+        return true;
     }
 }

@@ -40,6 +40,11 @@ public class Movement : MonoBehaviour
 
         Profiler.EndSample();
     }
+
+    private void OnEnable()
+    {
+        direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+    }
     /*
     private void OnTriggerEnter2D(Collider2D collision)
     {
