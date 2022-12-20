@@ -174,7 +174,6 @@ MonoBehaviour:
   rockCountText: {fileID: 2140956673}
   paperCountText: {fileID: 2100070874}
   scissorsCountText: {fileID: 2124857518}
-  loadingText: {fileID: 0}
   currentRockCountText: {fileID: 233723600}
   currentPaperCountText: {fileID: 348779544}
   currentScissorsCountText: {fileID: 828492060}
@@ -564,7 +563,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4288911003
+    rgba: 4285820017
   m_fontColor: {r: 0.44313726, g: 0.42352942, b: 0.45490196, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -1355,11 +1354,11 @@ RectTransform:
   m_Father: {fileID: 1318009164}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 236.29086}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 965, y: 42.5}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &735271218
 GameObject:
   m_ObjectHideFlags: 0
