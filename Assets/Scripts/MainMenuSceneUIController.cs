@@ -88,12 +88,37 @@ public class MainMenuSceneUIController : MonoBehaviour
             800-900 -> 20.5 -> 8
             900-1000 -> 22 -> 9
          */
-        if (sliderVal > 0 && sliderVal <= 50)
+        if (sliderVal > 0 && sliderVal <= 10)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 3f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 10 && sliderVal <= 20)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 3.5f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 20 && sliderVal <= 30)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 4f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 30 && sliderVal <= 40)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 4.7f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 40 && sliderVal <= 50)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 5f;
             GameData.GameDataScriptableObject.objectSpeed = 4f;
         }
-        else if (sliderVal > 50 && sliderVal <= 100)
+        else if (sliderVal > 50 && sliderVal <= 75)
+        {
+            GameData.GameDataScriptableObject.orthograpicCameraSize = 6f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
+        }
+        else if (sliderVal > 75 && sliderVal <= 100)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 7f;
             GameData.GameDataScriptableObject.objectSpeed = 4f;
