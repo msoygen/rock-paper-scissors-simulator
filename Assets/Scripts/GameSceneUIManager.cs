@@ -20,6 +20,9 @@ public class GameSceneUIManager : MonoBehaviour
     private GameObject gameOverParent;
 
     [SerializeField]
+    private GameObject loadingOverlay;
+
+    [SerializeField]
     private TMP_Text rockCountText;
     [SerializeField]
     private TMP_Text paperCountText;
@@ -131,6 +134,12 @@ public class GameSceneUIManager : MonoBehaviour
     public void OnMainMenuButtonClicked()
     {
         SceneManager.LoadScene(MAIN_MENU_SCENE_BUILD_INDEX);
+    }
+
+    public void OnObjectsInstantiated()
+    {
+        ToggleSelectWinnerPanel();
+        loadingOverlay.gameObject.SetActive(false);
     }
 
     public void OnGameOver(GameDataScriptableObject.ObjectType winner)

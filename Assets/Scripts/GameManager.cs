@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Profiling;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject sessionObjects;
 
     private Dictionary<GameDataScriptableObject.ObjectType, Dictionary<int, GameObject>> nonActiveObjectsPool = new Dictionary<GameDataScriptableObject.ObjectType, Dictionary<int, GameObject>>();
+    private List<Vector3> instancePositionsPool = new List<Vector3>();
 
     // 0 rock 1 paper 2 scissors
     private List<int> pickList = new List<int>();
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AudioSource audioSoruce;
 
-    private int playingAudio = 0;
+    private int populateloopIndex = 0;
 
     private void Awake()
     {
@@ -42,9 +44,14 @@ public class GameManager : MonoBehaviour
         Camera.main.orthographicSize = GameData.GameDataScriptableObject.orthograpicCameraSize;
         GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
 
+        populateloopIndex = 0;
+        Profiler.BeginSample("Pick List");
         CreatePickList();
+        Profiler.EndSample();
 
-        PopulateGameScene();
+        Profiler.BeginSample("Populate");
+        StartCoroutine(PopulateGameScene());
+        Profiler.EndSample();
         Time.timeScale = 0f;
     }
 
@@ -88,11 +95,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PopulateGameScene()
+    IEnumerator PopulateGameScene()
     {
         // instantiate using a scattering formation
         foreach (int pick in pickList)
         {
+            populateloopIndex++;
             switch (pick)
             {
                 case 0: // rock
@@ -107,7 +115,12 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+            if (populateloopIndex % 50 == 0)
+            {
+                yield return null;
+            }
         }
+        gameSceneUIManager.OnObjectsInstantiated();
     }
 
     private void CreatePickList()
@@ -119,18 +132,14 @@ public class GameManager : MonoBehaviour
     }
     private Vector3 FindNonOverlappingPosition()
     {
-        float minDistance = 1f;
-
-        Collider2D[] neighbours;
-        Vector2 pos;
+        float minDistance = 1.01f;
+        Vector2 pos = new Vector2(0, 0);
 
         do
         {
-            pos = new Vector2(
-                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.x - 1), (GameData.GameDataScriptableObject.GameViewBoundaries.x - 1)),
-                Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.y - 1), (GameData.GameDataScriptableObject.GameViewBoundaries.y - 1)));
-            neighbours = Physics2D.OverlapCircleAll(pos, minDistance);
-        } while (neighbours.Length > 0);
+            pos.x = Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.x - 1), (GameData.GameDataScriptableObject.GameViewBoundaries.x - 1));
+            pos.y = Random.Range(-1 * (GameData.GameDataScriptableObject.GameViewBoundaries.y - 1), (GameData.GameDataScriptableObject.GameViewBoundaries.y - 1));
+        } while (InstancePositionsPoolPositionOverlapCheck(pos, minDistance));
 
         return new Vector3(pos.x, pos.y, 0f);
     }
@@ -195,6 +204,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Instantiate(GameData.GameDataScriptableObject.rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
+            instancePositionsPool.Add(pos);
         }
     }
 
@@ -209,6 +219,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Instantiate(GameData.GameDataScriptableObject.paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
+            instancePositionsPool.Add(pos);
         }
     }
 
@@ -223,6 +234,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
+            instancePositionsPool.Add(pos);
         }
     }
 
@@ -236,6 +248,16 @@ public class GameManager : MonoBehaviour
         {
             nonActiveObjectsPool[objectType].Add(_gameObject.GetInstanceID(), _gameObject);
         }
+    }
+
+    // d_squared against minDistance squared
+    private bool InstancePositionsPoolPositionOverlapCheck(Vector2 pos, float minDistance)
+    {
+        foreach (var target_pos in instancePositionsPool)
+        {
+            if ((target_pos.x - pos.x) * (target_pos.x - pos.x) + (target_pos.y - pos.y) * (target_pos.y - pos.y) < minDistance * minDistance) return true;
+        }
+        return false;
     }
 
     private bool TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType type, out GameObject nonActiveGameObject)
