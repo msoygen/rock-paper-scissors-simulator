@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
     {
         Camera.main.orthographicSize = GameData.GameDataScriptableObject.orthograpicCameraSize;
         GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
+
         CreatePickList();
+
         PopulateGameScene();
         Time.timeScale = 0f;
     }
@@ -46,6 +48,11 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            SceneManager.LoadScene(1);
+        }
+
     }
 
     private void LateUpdate()
@@ -91,10 +98,7 @@ public class GameManager : MonoBehaviour
         pickList.Clear();
 
         AssignObjectCountsEach();
-
-        PopulatePickListSorted();
-
-        pickList.Shuffle();
+        PopulatePickList();
     }
     private Vector3 FindNonOverlappingPosition()
     {
@@ -114,25 +118,28 @@ public class GameManager : MonoBehaviour
         return new Vector3(pos.x, pos.y, 0f);
     }
 
-    // Generates uniformly distributed random numbers for each object that add up to the totalObjectCount.
+    // Generates (almost)uniformly distributed integers for each object that add up to the totalObjectCount.
     // TODO generates 0 values
     private void AssignObjectCountsEach()
     {
         List<int> fields = new List<int> { 0, 0, 0 };
-        int sum = 0;
-        for (int i = 0; i < fields.Count - 1; i++)
+        int sum = 3;
+
+        for(int i = 0; i < fields.Count - 1; i++)
         {
-            fields[i] = Random.Range(1, GameData.GameDataScriptableObject.totalObjectCount);
-            sum += fields[i];
+            if(GameData.GameDataScriptableObject.totalObjectCount - sum > 1)
+            {
+                fields[i] = Random.Range(1, GameData.GameDataScriptableObject.totalObjectCount - sum);
+                sum += fields[i];
+            }
         }
-        int actualSum = sum * fields.Count / (fields.Count - 1);
-        sum = 0;
-        for (int i = 0; i < fields.Count - 1; i++)
-        {
-            fields[i] = fields[i] * GameData.GameDataScriptableObject.totalObjectCount / actualSum;
-            sum += fields[i];
-        }
+
         fields[fields.Count - 1] = GameData.GameDataScriptableObject.totalObjectCount - sum;
+
+        // make sure each object is present
+        fields[0]++;
+        fields[1]++;
+        fields[2]++;
 
         fields.Shuffle();
 
@@ -141,7 +148,7 @@ public class GameManager : MonoBehaviour
         GameData.GameDataScriptableObject.scissorsCount = fields[2];
     }
 
-    private void PopulatePickListSorted()
+    private void PopulatePickList()
     {
         for (int i = 0; i < GameData.GameDataScriptableObject.rockCount; i++)
         {
@@ -157,6 +164,8 @@ public class GameManager : MonoBehaviour
         {
             pickList.Add(2);
         }
+
+        pickList.Shuffle();
     }
 
     public void InstantiateRockPrefab(Vector3 pos)
