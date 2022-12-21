@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AudioSource audioSoruce;
 
-    private int populateloopIndex = 0;
+    private int populateLoopIndex = 0;
 
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
         Camera.main.orthographicSize = GameData.GameDataScriptableObject.orthograpicCameraSize;
         GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
 
-        populateloopIndex = 0;
+        populateLoopIndex = 0;
         Profiler.BeginSample("Pick List");
         CreatePickList();
         Profiler.EndSample();
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
         // instantiate using a scattering formation
         foreach (int pick in pickList)
         {
-            populateloopIndex++;
+            populateLoopIndex++;
             switch (pick)
             {
                 case 0: // rock
@@ -115,7 +115,7 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
-            if (populateloopIndex % 50 == 0)
+            if (populateLoopIndex % 50 == 0)
             {
                 yield return null;
             }
