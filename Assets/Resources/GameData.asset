@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf8627c3fa58624d9694569bb23c6a1, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  totalObjectSize: 0
+  totalObjectCount: 0
+  objectSpeed: 9
   rockPrefab: {fileID: 4744560716473734771, guid: b47b595eb34dae44fbbf491a64024a07, type: 3}
   paperPrefab: {fileID: 7580637146359702023, guid: 236b3b0dd110f7d479066ab57e28b494, type: 3}
   scissorsPrefab: {fileID: 9077328890200034998, guid: 98f0733bb89064a468b21da1c3f7c453, type: 3}

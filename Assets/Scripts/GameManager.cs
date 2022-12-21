@@ -22,9 +22,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private AudioSource audioSoruce;
 
-    [SerializeField]
-    private AudioClip[] sfxClips = new AudioClip[3];
-
     private int playingAudio = 0;
 
     private void Awake()
@@ -41,6 +38,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        Application.targetFrameRate = 60;
         Camera.main.orthographicSize = GameData.GameDataScriptableObject.orthograpicCameraSize;
         GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
 
@@ -258,18 +256,24 @@ public class GameManager : MonoBehaviour
     public void PlayRockSFX()
     {
         if (!audioSoruce.isPlaying)
-            audioSoruce.PlayOneShot(sfxClips[0], 0.3f);
+        {
+            audioSoruce.PlayOneShot(GameData.GameDataScriptableObject.RockSFX, 0.3f);
+        }
     }
 
     public void PlayPaperSFX()
     {
         if (!audioSoruce.isPlaying)
-            audioSoruce.PlayOneShot(sfxClips[1], 0.9f);
+        {
+            audioSoruce.PlayOneShot(GameData.GameDataScriptableObject.PaperSFX, 0.9f);
+        }
     }
 
     public void PlayScissorsSFX()
     {
         if (!audioSoruce.isPlaying)
-            audioSoruce.PlayOneShot(sfxClips[2], 1.2f);
+        {
+            audioSoruce.PlayOneShot(GameData.GameDataScriptableObject.ScissorsSFX, 1.2f);
+        }
     }
 }

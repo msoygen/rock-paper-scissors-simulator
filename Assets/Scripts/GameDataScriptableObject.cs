@@ -60,14 +60,26 @@ public class GameDataScriptableObject : ScriptableObject
     public Sprite ScissorsSprite { get => scissorsSprite; }
     private Sprite scissorsSprite;
 
+    public AudioClip RockSFX { get => rockSFX; }
+    private AudioClip rockSFX;
+    public AudioClip PaperSFX { get => paperSFX; }
+    private AudioClip paperSFX;
+    public AudioClip ScissorsSFX { get => scissorsSFX; }
+    private AudioClip scissorsSFX;
+
     private void OnEnable()
     {
         rockTextMaterial = Resources.Load("Materials/RockTextFontMaterial", typeof(Material)) as Material;
         paperTextMaterial = Resources.Load("Materials/PaperTextFontMaterial", typeof(Material)) as Material;
         scissorsTextMaterial = Resources.Load("Materials/ScissorsTextFontMaterial", typeof(Material)) as Material;
+
         rockSprite = Resources.Load("Sprites/rock_pixelart", typeof(Sprite)) as Sprite;
         paperSprite = Resources.Load("Sprites/paper_pixelart", typeof(Sprite)) as Sprite;
         scissorsSprite = Resources.Load("Sprites/scissors_pixelart", typeof(Sprite)) as Sprite;
+
+        rockSFX = Resources.Load("SFX/rock sfx", typeof(AudioClip)) as AudioClip;
+        paperSFX = Resources.Load("SFX/paper sfx", typeof(AudioClip)) as AudioClip;
+        scissorsSFX = Resources.Load("SFX/scissors sfx 2", typeof(AudioClip)) as AudioClip;
     }
 
     public void UpdateGameViewBoundaries()
