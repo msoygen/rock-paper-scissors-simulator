@@ -55,41 +55,18 @@ public class GameSceneUIManager : MonoBehaviour
     [SerializeField]
     private Button MainMenuButton;
 
-    private void Start()
-    {
-    }
-
     private void LateUpdate()
     {
         UpdateGameStatsObject();
         UpdateSelectWinnerObject();
     }
 
-    public void ToggleCanvas()
-    {
-        canvas.gameObject.SetActive(!canvas.gameObject.activeSelf);
-    }
-
-    public void ToggleSelectWinnerPanel()
-    {
-        selectWinnerParent.SetActive(!selectWinnerParent.gameObject.activeSelf);
-    }
-    public void ToggleGameOverPanel()
-    {
-        selectWinnerParent.SetActive(!gameOverParent.gameObject.activeSelf);
-    }
-
-    public void ToggleGameStatsPanel()
-    {
-        gameStatsParent.SetActive(!gameStatsParent.gameObject.activeSelf);
-    }
-
     public void OnRockButtonClicked()
     {
         GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Rock;
 
-        ToggleGameStatsPanel();
-        ToggleSelectWinnerPanel();
+        gameStatsParent.gameObject.SetActive(true);
+        selectWinnerParent.gameObject.SetActive(false);
 
         playersPickText.fontMaterial = GameData.GameDataScriptableObject.RockTextMaterial;
         playersPickText.color = GameData.GameDataScriptableObject.ROCK_TEXT_COLOR;
@@ -102,8 +79,8 @@ public class GameSceneUIManager : MonoBehaviour
     {
         GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Paper;
 
-        ToggleGameStatsPanel();
-        ToggleSelectWinnerPanel();
+        gameStatsParent.gameObject.SetActive(true);
+        selectWinnerParent.gameObject.SetActive(false);
 
         playersPickText.fontMaterial = GameData.GameDataScriptableObject.PaperTextMaterial;
         playersPickText.color = GameData.GameDataScriptableObject.PAPER_TEXT_COLOR;
@@ -116,8 +93,8 @@ public class GameSceneUIManager : MonoBehaviour
     {
         GameData.GameDataScriptableObject.winnerPick = GameDataScriptableObject.ObjectType.Scissors;
 
-        ToggleGameStatsPanel();
-        ToggleSelectWinnerPanel();
+        gameStatsParent.gameObject.SetActive(true);
+        selectWinnerParent.gameObject.SetActive(false);
 
         playersPickText.fontMaterial = GameData.GameDataScriptableObject.ScissorsTextMaterial;
         playersPickText.color = GameData.GameDataScriptableObject.SCISSORS_TEXT_COLOR;
@@ -138,7 +115,7 @@ public class GameSceneUIManager : MonoBehaviour
 
     public void OnObjectsInstantiated()
     {
-        ToggleSelectWinnerPanel();
+        selectWinnerParent.SetActive(true);
         loadingOverlay.gameObject.SetActive(false);
     }
 
