@@ -19,7 +19,6 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Profiler.BeginSample("Boundaries");
 
         if (rb2D.position.x > gameViewBoundaries.x || rb2D.position.x < -gameViewBoundaries.x)
         {
@@ -32,31 +31,11 @@ public class Movement : MonoBehaviour
             direction.x = Random.Range(-1f, 1f);
         }
 
-        Profiler.EndSample(); 
-
-        Profiler.BeginSample("MovePosition");
-
         rb2D.MovePosition(rb2D.position + direction * GameData.GameDataScriptableObject.objectSpeed * Time.fixedDeltaTime);
-
-        Profiler.EndSample();
     }
 
     private void OnEnable()
     {
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
     }
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Vertical Bound"))
-        {
-            direction.y *= -1;
-            direction.x = Random.Range(-1f, 1f);
-        }
-        else if (collision.gameObject.CompareTag("Horizontal Bound"))
-        {
-            direction.x *= -1;
-            direction.y = Random.Range(-1f, 1f);
-        }
-    }*/
 }
