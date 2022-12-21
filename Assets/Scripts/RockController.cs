@@ -23,6 +23,7 @@ public class RockController : MonoBehaviour
             GameManager.instance.InstantiatePaperPrefab(transform.position);
 
             anyContactPointTriggered = true;
+            GameManager.instance.PlayPaperSFX();
         }
     }
 

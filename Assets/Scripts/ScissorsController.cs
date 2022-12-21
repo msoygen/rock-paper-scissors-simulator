@@ -18,6 +18,7 @@ public class ScissorsController : MonoBehaviour
             GameManager.instance.InstantiateRockPrefab(transform.position);
 
             anyContactPointTriggered = true;
+            GameManager.instance.PlayRockSFX();
         }
     }
 

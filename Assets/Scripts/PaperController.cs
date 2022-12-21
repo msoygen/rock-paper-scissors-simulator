@@ -23,6 +23,7 @@ public class PaperController : MonoBehaviour
             GameManager.instance.InstantiateScissorsPrefab(transform.position);
 
             anyContactPointTriggered = true;
+            GameManager.instance.PlayScissorsSFX();
         }
     }
 
