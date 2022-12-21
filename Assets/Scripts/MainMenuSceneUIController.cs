@@ -91,57 +91,57 @@ public class MainMenuSceneUIController : MonoBehaviour
         if (sliderVal > 0 && sliderVal <= 50)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 5f;
-            GameData.GameDataScriptableObject.objectSpeed = 3f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
         }
         else if (sliderVal > 50 && sliderVal <= 100)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 7f;
-            GameData.GameDataScriptableObject.objectSpeed = 3f;
+            GameData.GameDataScriptableObject.objectSpeed = 4f;
         }
         else if (sliderVal > 100 && sliderVal <= 200)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 10f;
-            GameData.GameDataScriptableObject.objectSpeed = 4f;
+            GameData.GameDataScriptableObject.objectSpeed = 5f;
         }
         else if (sliderVal > 200 && sliderVal <= 300)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 13f;
-            GameData.GameDataScriptableObject.objectSpeed = 4f;
+            GameData.GameDataScriptableObject.objectSpeed = 5f;
         }
         else if (sliderVal > 300 && sliderVal <= 400)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 15f;
-            GameData.GameDataScriptableObject.objectSpeed = 6f;
+            GameData.GameDataScriptableObject.objectSpeed = 7f;
         }
         else if (sliderVal > 400 && sliderVal <= 500)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 16.5f;
-            GameData.GameDataScriptableObject.objectSpeed = 6f;
+            GameData.GameDataScriptableObject.objectSpeed = 7f;
         }
         else if (sliderVal > 500 && sliderVal <= 600)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 17.5f;
-            GameData.GameDataScriptableObject.objectSpeed = 7f;
+            GameData.GameDataScriptableObject.objectSpeed = 8f;
         }
         else if (sliderVal > 600 && sliderVal <= 700)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 18.5f;
-            GameData.GameDataScriptableObject.objectSpeed = 7f;
+            GameData.GameDataScriptableObject.objectSpeed = 8f;
         }
         else if (sliderVal > 700 && sliderVal <= 800)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 19.5f;
-            GameData.GameDataScriptableObject.objectSpeed = 8f;
+            GameData.GameDataScriptableObject.objectSpeed = 9f;
         }
         else if (sliderVal > 800 && sliderVal <= 900)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 20.5f;
-            GameData.GameDataScriptableObject.objectSpeed = 8f;
+            GameData.GameDataScriptableObject.objectSpeed = 9f;
         }
         else if (sliderVal > 900 && sliderVal <= 1000)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 22f;
-            GameData.GameDataScriptableObject.objectSpeed = 9f;
+            GameData.GameDataScriptableObject.objectSpeed = 10f;
         }
     }
 
