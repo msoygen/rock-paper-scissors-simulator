@@ -119,13 +119,6 @@ public class GameManager : MonoBehaviour
         gameSceneUIManager.OnObjectsInstantiated();
     }
 
-    private void CreatePickList()
-    {
-        pickList.Clear();
-
-        AssignObjectCountsEach();
-        PopulatePickList();
-    }
     private Vector3 FindNonOverlappingPosition()
     {
         float minDistance = 1.01f;
@@ -138,6 +131,24 @@ public class GameManager : MonoBehaviour
         } while (InstancePositionsPoolPositionOverlapCheck(pos, minDistance));
 
         return new Vector3(pos.x, pos.y, 0f);
+    }
+
+    // d_squared against minDistance squared
+    private bool InstancePositionsPoolPositionOverlapCheck(Vector2 pos, float minDistance)
+    {
+        foreach (var target_pos in instancePositionsPool)
+        {
+            if ((target_pos.x - pos.x) * (target_pos.x - pos.x) + (target_pos.y - pos.y) * (target_pos.y - pos.y) < minDistance * minDistance) return true;
+        }
+        return false;
+    }
+
+    private void CreatePickList()
+    {
+        pickList.Clear();
+
+        AssignObjectCountsEach();
+        PopulatePickList();
     }
 
     // Generates (almost)uniformly distributed integers for each object that add up to the totalObjectCount.
@@ -244,16 +255,6 @@ public class GameManager : MonoBehaviour
         {
             nonActiveObjectsPool[objectType].Add(_gameObject.GetInstanceID(), _gameObject);
         }
-    }
-
-    // d_squared against minDistance squared
-    private bool InstancePositionsPoolPositionOverlapCheck(Vector2 pos, float minDistance)
-    {
-        foreach (var target_pos in instancePositionsPool)
-        {
-            if ((target_pos.x - pos.x) * (target_pos.x - pos.x) + (target_pos.y - pos.y) * (target_pos.y - pos.y) < minDistance * minDistance) return true;
-        }
-        return false;
     }
 
     private bool TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType type, out GameObject nonActiveGameObject)
