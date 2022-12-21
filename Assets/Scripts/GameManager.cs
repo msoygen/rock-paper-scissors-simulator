@@ -45,13 +45,9 @@ public class GameManager : MonoBehaviour
         GameData.GameDataScriptableObject.UpdateGameViewBoundaries();
 
         populateLoopIndex = 0;
-        Profiler.BeginSample("Pick List");
         CreatePickList();
-        Profiler.EndSample();
 
-        Profiler.BeginSample("Populate");
         StartCoroutine(PopulateGameScene());
-        Profiler.EndSample();
         Time.timeScale = 0f;
     }
 
