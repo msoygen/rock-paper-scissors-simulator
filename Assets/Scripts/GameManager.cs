@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
     }
 
     // Generates (almost)uniformly distributed integers for each object that add up to the totalObjectCount.
-    // TODO generates 0 values
     private void AssignObjectCountsEach()
     {
         List<int> fields = new List<int> { 0, 0, 0 };
