@@ -48,9 +48,20 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha0))
+        else if (Input.GetKeyDown(KeyCode.R))
         {
             SceneManager.LoadScene(1);
+        }
+        else if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (Time.timeScale < 1)
+            {
+                Time.timeScale = 1;
+            }
+            else
+            {
+                Time.timeScale = 0;
+            }
         }
 
     }
@@ -124,9 +135,9 @@ public class GameManager : MonoBehaviour
         List<int> fields = new List<int> { 0, 0, 0 };
         int sum = 3;
 
-        for(int i = 0; i < fields.Count - 1; i++)
+        for (int i = 0; i < fields.Count - 1; i++)
         {
-            if(GameData.GameDataScriptableObject.totalObjectCount - sum > 1)
+            if (GameData.GameDataScriptableObject.totalObjectCount - sum > 1)
             {
                 fields[i] = Random.Range(1, GameData.GameDataScriptableObject.totalObjectCount - sum);
                 sum += fields[i];
