@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         populateLoopIndex = 0;
         CreatePickList();
 
-        StartCoroutine(PopulateGameScene());
+        StartCoroutine(PopulateGameScene()); // Using coroutine for this prevents browser from crashing
         Time.timeScale = 0f;
     }
 
@@ -91,6 +91,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spreads instantiating pick list throughout frames.
+    /// </summary>
     IEnumerator PopulateGameScene()
     {
         // instantiate using a scattering formation
@@ -111,6 +114,7 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+            // for every 50 instantiate operation, take a break
             if (populateLoopIndex % 50 == 0)
             {
                 yield return null;
@@ -133,7 +137,10 @@ public class GameManager : MonoBehaviour
         return new Vector3(pos.x, pos.y, 0f);
     }
 
-    // d_squared against minDistance squared
+    /// <summary>
+    /// Uses non square root Eucledian distance to determine if given position overlaps with any position from instancePositionPool
+    /// </summary>
+    /// <returns></returns>
     private bool InstancePositionsPoolPositionOverlapCheck(Vector2 pos, float minDistance)
     {
         foreach (var target_pos in instancePositionsPool)
@@ -151,7 +158,9 @@ public class GameManager : MonoBehaviour
         PopulatePickList();
     }
 
-    // Generates (almost)uniformly distributed integers for each object that add up to the totalObjectCount.
+    /// <summary>
+    /// Generates (almost)uniformly distributed integers for each object that add up to the totalObjectCount.
+    /// </summary>
     private void AssignObjectCountsEach()
     {
         List<int> fields = new List<int> { 0, 0, 0 };
@@ -203,7 +212,7 @@ public class GameManager : MonoBehaviour
     public void InstantiateRockPrefab(Vector3 pos)
     {
         GameObject nonActiveRockObject;
-        if (TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType.Rock, out nonActiveRockObject))
+        if (TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType.Rock, out nonActiveRockObject))
         {
             nonActiveRockObject.SetActive(true);
             nonActiveRockObject.transform.position = pos;
@@ -218,7 +227,7 @@ public class GameManager : MonoBehaviour
     public void InstantiatePaperPrefab(Vector3 pos)
     {
         GameObject nonActivePaperObject;
-        if (TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType.Paper, out nonActivePaperObject))
+        if (TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType.Paper, out nonActivePaperObject))
         {
             nonActivePaperObject.SetActive(true);
             nonActivePaperObject.transform.position = pos;
@@ -233,7 +242,7 @@ public class GameManager : MonoBehaviour
     public void InstantiateScissorsPrefab(Vector3 pos)
     {
         GameObject nonActiveScissorsObject;
-        if (TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType.Scissors, out nonActiveScissorsObject))
+        if (TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType.Scissors, out nonActiveScissorsObject))
         {
             nonActiveScissorsObject.SetActive(true);
             nonActiveScissorsObject.transform.position = pos;
@@ -245,7 +254,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddNonActiveGameObject(GameDataScriptableObject.ObjectType objectType, GameObject _gameObject)
+    public void AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType objectType, GameObject _gameObject)
     {
         if (!nonActiveObjectsPool.ContainsKey(objectType))
         {
@@ -257,7 +266,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool TryGetNonActiveGameObject(GameDataScriptableObject.ObjectType type, out GameObject nonActiveGameObject)
+    /// <summary>
+    /// Fetches specified game object from pool if present.
+    /// </summary>
+    /// <returns></returns>
+    private bool TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType type, out GameObject nonActiveGameObject)
     {
         nonActiveGameObject = null;
 

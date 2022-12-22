@@ -17,7 +17,7 @@ public class PaperController : MonoBehaviour
         {
             gameObject.SetActive(false);
             GameData.GameDataScriptableObject.UpdatePaperCount(-1);
-            GameManager.instance.AddNonActiveGameObject(GameDataScriptableObject.ObjectType.Paper, gameObject);
+            GameManager.instance.AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType.Paper, gameObject);
 
             GameData.GameDataScriptableObject.UpdateScissorsCount(1);
             GameManager.instance.InstantiateScissorsPrefab(transform.position);

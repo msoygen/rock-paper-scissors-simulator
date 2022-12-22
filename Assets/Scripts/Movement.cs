@@ -19,7 +19,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        // keep object in bounds
         if (rb2D.position.x > gameViewBoundaries.x || rb2D.position.x < -gameViewBoundaries.x)
         {
             direction.x *= -1;
@@ -36,6 +36,7 @@ public class Movement : MonoBehaviour
 
     private void OnEnable()
     {
+        // bounce back on re-instantiate from pool
         direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
     }
 }

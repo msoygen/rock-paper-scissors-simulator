@@ -75,19 +75,7 @@ public class MainMenuSceneUIController : MonoBehaviour
         int sliderVal = (int)simulationSizeSlider.value;
         GameData.GameDataScriptableObject.totalObjectCount = sliderVal;
 
-        /*
-            0-50 -> 5 -> 3
-            50-100 -> 7 -> 3
-            100-200 -> 10 -> 4
-            200-300 -> 13 -> 4
-            300-400 -> 15 -> 6
-            400-500 -> 16.5 -> 6
-            500-600 -> 17.5 -> 7
-            600-700 -> 18.5 -> 7
-            700-800 -> 19.5 -> 8
-            800-900 -> 20.5 -> 8
-            900-1000 -> 22 -> 9
-         */
+        // These values are determined by play test.
         if (sliderVal > 0 && sliderVal <= 10)
         {
             GameData.GameDataScriptableObject.orthograpicCameraSize = 3f;
@@ -175,6 +163,9 @@ public class MainMenuSceneUIController : MonoBehaviour
         chosenSimulationSizeText.text = simulationSizeSlider.value.ToString();
     }
 
+    /// <summary>
+    /// Switches color of given UI element every second.
+    /// </summary>
     IEnumerator SwitchUIStyle(TMP_Text text)
     {
         while (true)
@@ -189,6 +180,9 @@ public class MainMenuSceneUIController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Switches color of given UI element every second.
+    /// </summary>
     IEnumerator SwitchUIStyle(Slider slider, Image backgroundImage, Image fillImage, Image handleImage)
     {
         while (true)
@@ -204,6 +198,10 @@ public class MainMenuSceneUIController : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Switches color of given UI element every second.
+    /// </summary>
     IEnumerator SwitchUIStyle(Button button)
     {
         while (true)

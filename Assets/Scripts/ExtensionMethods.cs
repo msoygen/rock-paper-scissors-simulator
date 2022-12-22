@@ -6,6 +6,9 @@ public static class ExtensionMethods
 {
     private static System.Random rng = new System.Random();
 
+    /// <summary>
+    /// Shuffle list using Fisher Yates shuffle
+    /// </summary>
     public static void Shuffle<T>(this IList<T> list)
     {
         int n = list.Count;
@@ -19,6 +22,9 @@ public static class ExtensionMethods
         }
     }
 
+    /// <summary>
+    /// Get bounds determined by orthographic size of camera
+    /// </summary>
     public static Bounds OrthographicBounds(this Camera camera)
     {
         float screenAspect = (float)Screen.width / (float)Screen.height;

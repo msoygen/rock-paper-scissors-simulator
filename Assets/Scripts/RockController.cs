@@ -17,7 +17,7 @@ public class RockController : MonoBehaviour
         {
             gameObject.SetActive(false);
             GameData.GameDataScriptableObject.UpdateRockCount(-1);
-            GameManager.instance.AddNonActiveGameObject(GameDataScriptableObject.ObjectType.Rock, gameObject);
+            GameManager.instance.AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType.Rock, gameObject);
 
             GameData.GameDataScriptableObject.UpdatePaperCount(1);
             GameManager.instance.InstantiatePaperPrefab(transform.position);

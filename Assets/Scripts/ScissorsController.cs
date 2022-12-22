@@ -12,7 +12,7 @@ public class ScissorsController : MonoBehaviour
         {
             gameObject.SetActive(false);
             GameData.GameDataScriptableObject.UpdateScissorsCount(-1);
-            GameManager.instance.AddNonActiveGameObject(GameDataScriptableObject.ObjectType.Scissors, gameObject);
+            GameManager.instance.AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType.Scissors, gameObject);
 
             GameData.GameDataScriptableObject.UpdateRockCount(1);
             GameManager.instance.InstantiateRockPrefab(transform.position);
