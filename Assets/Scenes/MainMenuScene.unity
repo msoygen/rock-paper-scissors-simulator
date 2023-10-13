@@ -3008,7 +3008,7 @@ GameObject:
   - component: {fileID: 378726858764349020}
   - component: {fileID: 378726858764349011}
   m_Layer: 5
-  m_Name: '"Back To Winner Pick: Q"'
+  m_Name: '"Back To Winner Pick: R"'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3054,7 +3054,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Back to Winner Pick: q'
+  m_text: 'Back to Winner Pick: r'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7d42bd1ac16028748accb11f8f653f55, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 5bedfea1e4b1a2b4dac9112df3717ff5, type: 2}

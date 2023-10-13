@@ -163,7 +163,7 @@ public class GameSceneUIManager : MonoBehaviour
     {
         ColorBlock dummyColorBlock;
 
-        winnerText_GameOver.text = winner;
+        winnerText_GameOver.SetText(winner);
         winnerText_GameOver.color = color;
         winnerText_GameOver.fontMaterial = material;
 

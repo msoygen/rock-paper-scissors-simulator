@@ -160,7 +160,7 @@ public class MainMenuSceneUIController : MonoBehaviour
 
     public void OnSliderValueChanged()
     {
-        chosenSimulationSizeText.text = simulationSizeSlider.value.ToString();
+        chosenSimulationSizeText.SetText(simulationSizeSlider.value.ToString());
     }
 
     /// <summary>
