@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
 
     private int populateLoopIndex = 0;
 
+    private bool _sessionComplete = false;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -73,21 +75,26 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (!_sessionComplete) GameOvercheck();
+
     }
 
-    private void LateUpdate()
+    private void GameOvercheck()
     {
         if (GameData.GameDataScriptableObject.rockCount == 0 && GameData.GameDataScriptableObject.paperCount == 0)
         {
             gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Scissors);
+            _sessionComplete = true;
         }
         else if (GameData.GameDataScriptableObject.paperCount == 0 && GameData.GameDataScriptableObject.scissorsCount == 0)
         {
             gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Rock);
+            _sessionComplete = true;
         }
         else if (GameData.GameDataScriptableObject.scissorsCount == 0 && GameData.GameDataScriptableObject.rockCount == 0)
         {
             gameSceneUIManager.OnGameOver(GameDataScriptableObject.ObjectType.Paper);
+            _sessionComplete = true;
         }
     }
 
