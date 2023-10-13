@@ -13,7 +13,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        direction = new Vector3(GetRandomDirection1D(), GetRandomDirection1D());
         gameViewBoundaries = GameData.GameDataScriptableObject.GameViewBoundaries;
     }
 
