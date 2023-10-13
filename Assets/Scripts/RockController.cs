@@ -20,7 +20,7 @@ public class RockController : MonoBehaviour
             GameManager.instance.AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType.Rock, gameObject);
 
             GameData.GameDataScriptableObject.UpdatePaperCount(1);
-            GameManager.instance.InstantiatePaperPrefab(transform.position);
+            GameManager.instance.InstantiatePrefabByType(transform.position, GameDataScriptableObject.ObjectType.Paper);
 
             anyContactPointTriggered = true;
             GameManager.instance.PlayPaperSFX();

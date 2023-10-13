@@ -20,7 +20,7 @@ public class PaperController : MonoBehaviour
             GameManager.instance.AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType.Paper, gameObject);
 
             GameData.GameDataScriptableObject.UpdateScissorsCount(1);
-            GameManager.instance.InstantiateScissorsPrefab(transform.position);
+            GameManager.instance.InstantiatePrefabByType(transform.position, GameDataScriptableObject.ObjectType.Scissors);
 
             anyContactPointTriggered = true;
             GameManager.instance.PlayScissorsSFX();

@@ -15,7 +15,7 @@ public class ScissorsController : MonoBehaviour
             GameManager.instance.AddNonActiveGameObjectToThePool(GameDataScriptableObject.ObjectType.Scissors, gameObject);
 
             GameData.GameDataScriptableObject.UpdateRockCount(1);
-            GameManager.instance.InstantiateRockPrefab(transform.position);
+            GameManager.instance.InstantiatePrefabByType(transform.position, GameDataScriptableObject.ObjectType.Rock);
 
             anyContactPointTriggered = true;
             GameManager.instance.PlayRockSFX();

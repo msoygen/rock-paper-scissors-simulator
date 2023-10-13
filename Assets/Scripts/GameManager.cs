@@ -18,8 +18,7 @@ public class GameManager : MonoBehaviour
     private Dictionary<GameDataScriptableObject.ObjectType, Dictionary<int, GameObject>> nonActiveObjectsPool = new Dictionary<GameDataScriptableObject.ObjectType, Dictionary<int, GameObject>>();
     private List<Vector3> instancePositionsPool = new List<Vector3>();
 
-    // 0 rock 1 paper 2 scissors
-    private List<int> pickList = new List<int>();
+    private List<GameDataScriptableObject.ObjectType> pickList = new List<GameDataScriptableObject.ObjectType>();
 
     [SerializeField]
     private AudioSource audioSoruce;
@@ -104,23 +103,11 @@ public class GameManager : MonoBehaviour
     IEnumerator PopulateGameScene()
     {
         // instantiate using a scattering formation
-        foreach (int pick in pickList)
+        foreach (GameDataScriptableObject.ObjectType pick in pickList)
         {
             populateLoopIndex++;
-            switch (pick)
-            {
-                case 0: // rock
-                    InstantiateRockPrefab(FindNonOverlappingPosition());
-                    break;
-                case 1: // paper
-                    InstantiatePaperPrefab(FindNonOverlappingPosition());
-                    break;
-                case 2: // scissors
-                    InstantiateScissorsPrefab(FindNonOverlappingPosition());
-                    break;
-                default:
-                    break;
-            }
+            InstantiatePrefabByType(FindNonOverlappingPosition(), pick);
+
             // for every 50 instantiate operation, take a break
             if (populateLoopIndex % 50 == 0)
             {
@@ -200,63 +187,44 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < GameData.GameDataScriptableObject.rockCount; i++)
         {
-            pickList.Add(0);
+            pickList.Add(GameDataScriptableObject.ObjectType.Rock);
         }
 
         for (int i = 0; i < GameData.GameDataScriptableObject.paperCount; i++)
         {
-            pickList.Add(1);
+            pickList.Add(GameDataScriptableObject.ObjectType.Paper);
         }
 
         for (int i = 0; i < GameData.GameDataScriptableObject.scissorsCount; i++)
         {
-            pickList.Add(2);
+            pickList.Add(GameDataScriptableObject.ObjectType.Scissors);
         }
 
         pickList.Shuffle();
     }
 
-    public void InstantiateRockPrefab(Vector3 pos)
-    {
-        GameObject nonActiveRockObject;
-        if (TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType.Rock, out nonActiveRockObject))
-        {
-            nonActiveRockObject.SetActive(true);
-            nonActiveRockObject.transform.position = pos;
-        }
-        else
-        {
-            Instantiate(GameData.GameDataScriptableObject.rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
-            instancePositionsPool.Add(pos);
-        }
-    }
-
-    public void InstantiatePaperPrefab(Vector3 pos)
-    {
-        GameObject nonActivePaperObject;
-        if (TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType.Paper, out nonActivePaperObject))
-        {
-            nonActivePaperObject.SetActive(true);
-            nonActivePaperObject.transform.position = pos;
-        }
-        else
-        {
-            Instantiate(GameData.GameDataScriptableObject.paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
-            instancePositionsPool.Add(pos);
-        }
-    }
-
-    public void InstantiateScissorsPrefab(Vector3 pos)
+    public void InstantiatePrefabByType(Vector3 pos, GameDataScriptableObject.ObjectType objectType)
     {
         GameObject nonActiveScissorsObject;
-        if (TryGetNonActiveGameObjectFromThePool(GameDataScriptableObject.ObjectType.Scissors, out nonActiveScissorsObject))
+        if (TryGetNonActiveGameObjectFromThePool(objectType, out nonActiveScissorsObject))
         {
             nonActiveScissorsObject.SetActive(true);
             nonActiveScissorsObject.transform.position = pos;
         }
         else
         {
-            Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
+            switch (objectType)
+            {
+                case GameDataScriptableObject.ObjectType.Rock:
+                    Instantiate(GameData.GameDataScriptableObject.rockPrefab, pos, Quaternion.identity, sessionObjects.transform);
+                    break;
+                case GameDataScriptableObject.ObjectType.Paper:
+                    Instantiate(GameData.GameDataScriptableObject.paperPrefab, pos, Quaternion.identity, sessionObjects.transform);
+                    break;
+                case GameDataScriptableObject.ObjectType.Scissors:
+                    Instantiate(GameData.GameDataScriptableObject.scissorsPrefab, pos, Quaternion.identity, sessionObjects.transform);
+                    break;
+            }
             instancePositionsPool.Add(pos);
         }
     }
