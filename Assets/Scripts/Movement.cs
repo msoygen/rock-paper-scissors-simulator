@@ -23,12 +23,12 @@ public class Movement : MonoBehaviour
         if (rb2D.position.x > gameViewBoundaries.x || rb2D.position.x < -gameViewBoundaries.x)
         {
             direction.x *= -1;
-            direction.y = Random.Range(-1f, 1f);
+            direction.y = GetRandomDirection1D();
         }
         else if (rb2D.position.y > gameViewBoundaries.y || rb2D.position.y < -gameViewBoundaries.y)
         {
             direction.y *= -1;
-            direction.x = Random.Range(-1f, 1f);
+            direction.x = GetRandomDirection1D();
         }
 
         rb2D.MovePosition(rb2D.position + direction * GameData.GameDataScriptableObject.objectSpeed * Time.fixedDeltaTime);
@@ -37,6 +37,11 @@ public class Movement : MonoBehaviour
     private void OnEnable()
     {
         // bounce back on re-instantiate from pool
-        direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+        direction = new Vector3(GetRandomDirection1D(), GetRandomDirection1D());
+    }
+
+    private float GetRandomDirection1D()
+    {
+        return Random.Range(0.5f, 1f) * (Random.Range(0, 2) * 2 - 1); 
     }
 }
