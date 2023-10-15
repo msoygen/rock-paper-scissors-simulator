@@ -5,7 +5,7 @@ using UnityEngine.Profiling;
 
 public class Movement : MonoBehaviour
 {
-    private Vector2 direction;
+    private Vector3 direction;
     private Vector2 gameViewBoundaries;
 
     [SerializeField]
@@ -17,21 +17,10 @@ public class Movement : MonoBehaviour
         gameViewBoundaries = GameData.GameDataScriptableObject.GameViewBoundaries;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        // keep object in bounds
-        if (rb2D.position.x > gameViewBoundaries.x || rb2D.position.x < -gameViewBoundaries.x)
-        {
-            direction.x *= -1;
-            direction.y = GetRandomDirection1D();
-        }
-        else if (rb2D.position.y > gameViewBoundaries.y || rb2D.position.y < -gameViewBoundaries.y)
-        {
-            direction.y *= -1;
-            direction.x = GetRandomDirection1D();
-        }
-
-        rb2D.MovePosition(rb2D.position + direction * GameData.GameDataScriptableObject.objectSpeed * Time.fixedDeltaTime);
+        CheckBounds();
+        transform.position += direction * GameData.GameDataScriptableObject.objectSpeed * Time.deltaTime;
     }
 
     private void OnEnable()
@@ -42,6 +31,34 @@ public class Movement : MonoBehaviour
 
     private float GetRandomDirection1D()
     {
-        return Random.Range(0.5f, 1f) * (Random.Range(0, 2) * 2 - 1); 
+        return Random.Range(0.5f, 1f) * (Random.Range(0, 2) * 2 - 1);
+    }
+
+    private void CheckBounds()
+    {
+        if (transform.position.x > gameViewBoundaries.x)
+        {
+            if (direction.x < 0f) return;
+            direction.x *= -1;
+            direction.y = GetRandomDirection1D();
+        }
+        else if (transform.position.x < -gameViewBoundaries.x)
+        {
+            if (direction.x > 0f) return;
+            direction.x *= -1;
+            direction.y = GetRandomDirection1D();
+        }
+        else if (transform.position.y > gameViewBoundaries.y)
+        {
+            if (direction.y < 0f) return;
+            direction.y *= -1;
+            direction.x = GetRandomDirection1D();
+        }
+        else if (transform.position.y < -gameViewBoundaries.y)
+        {
+            if (direction.y > 0f) return;
+            direction.y *= -1;
+            direction.x = GetRandomDirection1D();
+        }
     }
 }
