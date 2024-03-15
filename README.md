@@ -1,7 +1,7 @@
 # rock-paper-scissors-simulator
 I saw this concept on TikTok and decided to implement it myself. You can simulate the battle of rock paper and scissors from 3 objects to 1000 objects.
 
-I used Unity to make the game and I made almost all of the assets. Down below you can find source code and references to the assets I used.
+I used Unity 2021.3.12f1 to make the game and I made almost all of the assets. Down below you can find source code and references to the assets I used.
 
 *   [Kenney Fonts](https://www.kenney.nl/assets/kenney-fonts)
 *   [Small Rock and Stone Hits](https://freesound.org/people/lolamadeus/sounds/179365/)
